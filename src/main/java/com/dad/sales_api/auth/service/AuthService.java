@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.dad.sales_api.auth.dto.input.LoginInputDTO;
 import com.dad.sales_api.auth.dto.output.LoginOutputDTO;
+import com.dad.sales_api.shared.config.CustomUserDetails;
 import com.dad.sales_api.shared.config.JwtUtils;
-import com.dad.sales_api.shared.enums.RoleEnum;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,6 +28,9 @@ public class AuthService {
     UserDetails userDetails =
       userDetailsService.loadUserByUsername(email);
 
+    CustomUserDetails user =
+        (CustomUserDetails) userDetails;
+
     if (!passwordEncoder.matches(senha, userDetails.getPassword())) {
       return new LoginOutputDTO(
         "",
@@ -36,16 +39,11 @@ public class AuthService {
       );
     }
 
-    RoleEnum role = RoleEnum.valueOf(
-      userDetails.getAuthorities()
-        .stream()
-        .findFirst()
-        .orElseThrow()
-        .getAuthority()
-        .replace("ROLE_", "")
+    String token = jwtUtils.generateToken(
+      user.getUsername(),
+      user.getRole(),
+      user.getId()
     );
-
-    String token = jwtUtils.generateToken(email, role);
 
     return new LoginOutputDTO(
       token,
