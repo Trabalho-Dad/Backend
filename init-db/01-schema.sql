@@ -15,6 +15,7 @@ CREATE TABLE admin (
     id SERIAL PRIMARY KEY,
     cpf VARCHAR(14)  NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
 
@@ -35,8 +36,8 @@ CREATE TABLE payment_type (
 
 CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(150),
-    username VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(150) NOT NULl,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     creation_at TIMESTAMP NOT NULL DEFAULT NOW(),
     deactivated_at TIMESTAMP
