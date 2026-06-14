@@ -37,23 +37,34 @@ public class JwtUtils {
 
   public String getEmailFromToken(String token) {
     return Jwts.parser()
-        .verifyWith(key())
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .getSubject();
+      .verifyWith(key())
+      .build()
+      .parseSignedClaims(token)
+      .getPayload()
+      .getSubject();
   }
 
   public RoleEnum getRoleFromToken(String token) {
     String role = Jwts.parser()
-            .verifyWith(key())
-            .build()
-            .parseSignedClaims(token)
-            .getPayload()
-            .get("role", String.class);
+      .verifyWith(key())
+      .build()
+      .parseSignedClaims(token)
+      .getPayload()
+      .get("role", String.class);
 
     return RoleEnum.valueOf(role);
-}
+  }
+
+  public Integer getIdFromToken(String token) {
+    String role = Jwts.parser()
+      .verifyWith(key())
+      .build()
+      .parseSignedClaims(token)
+      .getPayload()
+      .get("id", String.class);
+
+    return Integer.valueOf(role);
+  }
 
   public boolean validateToken(String token) {
     try {
