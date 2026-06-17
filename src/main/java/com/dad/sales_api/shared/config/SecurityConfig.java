@@ -73,7 +73,9 @@ public class SecurityConfig implements UserDetailsService {
       .authorizeHttpRequests(auth -> auth
         .requestMatchers(
           "/auth/register",
-          "/auth/login"
+          "/auth/login",
+          "/figures",
+          "/figures/*"
         ).permitAll()
           .anyRequest().authenticated()
       )
