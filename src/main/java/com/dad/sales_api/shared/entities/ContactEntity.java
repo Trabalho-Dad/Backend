@@ -28,10 +28,10 @@ public class ContactEntity {
   private String value;
 
   @ManyToOne
-  @JoinColumn(name = "contact_type_id", nullable = false)
+  @JoinColumn(name = "id_contact_type", nullable = false)
   private ContactTypeEntity contactType;
 
   @ManyToOne
-  @JoinColumn(name = "customer_id", nullable = false)
+  @JoinColumn(name = "id_customer", nullable = false)
   private CustomerEntity customer;
 }

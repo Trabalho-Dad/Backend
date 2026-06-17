@@ -28,13 +28,13 @@ public class CustomerOrderFigureEntity {
   private CustomerOrderFigureId id;
 
   @ManyToOne
-  @MapsId("customerOrderId")
-  @JoinColumn(name = "customer_order_id")
+  @MapsId("idCustomerOrder")
+  @JoinColumn(name = "id_customer_order")
   private CustomerOrderEntity customerOrder;
 
   @ManyToOne
-  @MapsId("figureId")
-  @JoinColumn(name = "figure_id")
+  @MapsId("idFigure")
+  @JoinColumn(name = "id_figure")
   private FigureEntity figure;
 
   @Column(nullable = false)

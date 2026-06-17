@@ -47,22 +47,22 @@ public class FigureEntity {
   private Boolean active;
 
   @ManyToOne()
-  @JoinColumn(name = "character_id", nullable = false)
+  @JoinColumn(name = "id_character", nullable = false)
   private CharacterEntity character;
 
   @ManyToMany
   @JoinTable(
     name = "figure_acessory",
-    joinColumns = @JoinColumn(name = "figure_id"),
-    inverseJoinColumns = @JoinColumn(name = "acessory_id")
+    joinColumns = @JoinColumn(name = "id_figure"),
+    inverseJoinColumns = @JoinColumn(name = "id_acessory")
   )
   private List<AccessoryEntity> accessories;
 
   @ManyToMany
   @JoinTable(
     name = "figure_category",
-    joinColumns = @JoinColumn(name = "figure_id"),
-    inverseJoinColumns = @JoinColumn(name = "category_id")
+    joinColumns = @JoinColumn(name = "id_figure"),
+    inverseJoinColumns = @JoinColumn(name = "id_category")
   )
   private List<CategoryEntity> categories;
 

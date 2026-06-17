@@ -51,8 +51,8 @@ CREATE TABLE customer (
 CREATE TABLE contact (
     id              SERIAL PRIMARY KEY,
     value           VARCHAR(255) NOT NULL,
-    customer_id     INT NOT NULL REFERENCES customer(id),
-    contact_type_id INT NOT NULL REFERENCES contact_type(id)
+    id_customer     INT NOT NULL REFERENCES customer(id),
+    id_contact_type INT NOT NULL REFERENCES contact_type(id)
 );
 
 -- ------------------------------------------------------------
@@ -69,7 +69,7 @@ CREATE TABLE address (
     neighborhood VARCHAR(150),
     street       VARCHAR(200),
     number       VARCHAR(20),
-    customer_id  INT NOT NULL REFERENCES customer(id)
+    id_customer  INT NOT NULL REFERENCES customer(id)
 );
 
 -- ------------------------------------------------------------
@@ -95,7 +95,7 @@ CREATE TABLE figure (
     img_url     VARCHAR(500) NOT NULL,
     quantity    INT DEFAULT 0,
     active      BOOLEAN DEFAULT TRUE,
-    character_id INT NOT NULL REFERENCES character(id)
+    id_character INT NOT NULL REFERENCES character(id)
 );
 
 CREATE TABLE category(
@@ -106,15 +106,15 @@ CREATE TABLE category(
 );
 
 CREATE TABLE figure_acessory (
-    figure_id   INT NOT NULL REFERENCES figure(id),
-    acessory_id INT NOT NULL REFERENCES accessory(id),
-    PRIMARY KEY (figure_id, acessory_id)
+    id_figure   INT NOT NULL REFERENCES figure(id),
+    id_acessory INT NOT NULL REFERENCES accessory(id),
+    PRIMARY KEY (id_figure, id_acessory)
 );
 
 CREATE TABLE figure_category(
-    figure_id   INT NOT NULL REFERENCES figure(id),
-    category_id INT NOT NULL REFERENCES category(id),
-    PRIMARY KEY (figure_id, category_id)
+    id_figure   INT NOT NULL REFERENCES figure(id),
+    id_category INT NOT NULL REFERENCES category(id),
+    PRIMARY KEY (id_figure, id_category)
 );
 
 -- ------------------------------------------------------------
@@ -145,21 +145,21 @@ CREATE TABLE customer_order (
     status             VARCHAR(50),
     installments_count INT,
     created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
-    customer_id        INT NOT NULL REFERENCES customer(id)
+    id_customer        INT NOT NULL REFERENCES customer(id)
 );
 
 CREATE TABLE customer_order_coupons (
-    customer_order_id INT NOT NULL REFERENCES customer_order(id),
-    coupon_id        INT NOT NULL REFERENCES coupon(id),
-    PRIMARY KEY (customer_order_id, coupon_id)
+    id_customer_order INT NOT NULL REFERENCES customer_order(id),
+    id_coupon         INT NOT NULL REFERENCES coupon(id),
+    PRIMARY KEY (id_customer_order, id_coupon)
 );
 
 CREATE TABLE customer_order_figure (
-    customer_order_id INT NOT NULL REFERENCES customer_order(id),
-    figure_id         INT NOT NULL REFERENCES figure(id),
+    id_customer_order INT NOT NULL REFERENCES customer_order(id),
+    id_figure         INT NOT NULL REFERENCES figure(id),
     quantity          INT NOT NULL DEFAULT 1,
     price             NUMERIC(10,2),
-    PRIMARY KEY (customer_order_id, figure_id)
+    PRIMARY KEY (id_customer_order, id_figure)
 );
 
 -- ------------------------------------------------------------
@@ -172,8 +172,8 @@ CREATE TABLE payment (
     installment_number INT NOT NULL,
     pay_date DATE,
     valid_date DATE NOT NULL,
-    payment_type_id INT NOT NULL REFERENCES payment_type(id),
-    customer_order_id INT NOT NULL REFERENCES customer_order(id)
+    id_payment_type INT NOT NULL REFERENCES payment_type(id),
+    id_customer_order INT NOT NULL REFERENCES customer_order(id)
 );
 
 -- ============================================================
@@ -181,13 +181,13 @@ CREATE TABLE payment (
 -- ============================================================
 
 CREATE INDEX idx_contact_id_customer
-ON contact(customer_id);
+ON contact(id_customer);
 
 CREATE INDEX idx_address_id_customer
-ON address(customer_id);
+ON address(id_customer);
 
 CREATE INDEX idx_customer_order_id_customer
-ON customer_order(customer_id);
+ON customer_order(id_customer);
 
 CREATE INDEX idx_payment_id_payment_type
-ON payment(payment_type_id);
+ON payment(id_payment_type);

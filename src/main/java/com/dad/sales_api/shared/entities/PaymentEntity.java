@@ -38,10 +38,10 @@ public class PaymentEntity {
   private LocalDate validDate;
 
   @ManyToOne
-  @JoinColumn(name = "payment_type_id", nullable = false)
+  @JoinColumn(name = "id_payment_type", nullable = false)
   private PaymentTypeEntity paymentType;
 
   @ManyToOne
-  @JoinColumn(name = "customer_order_id", nullable = false)
+  @JoinColumn(name = "id_customer_order", nullable = false)
   private CustomerOrderEntity customerOrder;
 }

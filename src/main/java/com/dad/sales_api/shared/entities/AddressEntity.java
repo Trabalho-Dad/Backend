@@ -50,6 +50,6 @@ public class AddressEntity {
   private String number;
 
   @ManyToOne
-  @JoinColumn(name = "customer_id", nullable = false)
+  @JoinColumn(name = "id_customer", nullable = false)
   private CustomerEntity customer;
 }

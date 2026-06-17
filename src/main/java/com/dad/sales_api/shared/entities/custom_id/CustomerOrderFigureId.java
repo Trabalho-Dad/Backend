@@ -12,7 +12,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class CustomerOrderFigureId implements Serializable {
 
-    private Integer customerOrderId;
+    private Integer idCustomerOrder;
 
-    private Integer figureId;
+    private Integer idFigure;
 }

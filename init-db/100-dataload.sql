@@ -13,7 +13,7 @@ VALUES
 ('PHONE'),
 ('WHATSAPP');
 
-INSERT INTO contact (value, customer_id, contact_type_id)
+INSERT INTO contact (value, id_customer, id_contact_type)
 VALUES
 ('11999999999', 1, 2),
 ('joao@email.com', 1, 1),
@@ -21,7 +21,7 @@ VALUES
 
 INSERT INTO address (
     complement, cep, country, state, city,
-    neighborhood, street, number, customer_id
+    neighborhood, street, number, id_customer
 )
 VALUES
 ('Apto 12', '01000-000', 'Brasil', 'SP', 'São Paulo',
@@ -43,7 +43,7 @@ VALUES
 ('Capa', 'Capa decorativa', 'https://img.com/capa.png');
 
 INSERT INTO figure (
-    name, description, price, img_url, quantity, character_id
+    name, description, price, img_url, quantity, id_character
 )
 VALUES
 ('Naruto Figure', 'Figura do Naruto', 199.90,
@@ -52,13 +52,13 @@ VALUES
 ('Goku Figure', 'Figura do Goku', 249.90,
  'https://img.com/goku.png', 5, 2);
 
-INSERT INTO figure_acessory (figure_id, acessory_id)
+INSERT INTO figure_acessory (id_figure, id_acessory)
 VALUES
 (1, 1),
 (1, 2),
 (2, 2);
 
-INSERT INTO figure_category (figure_id, category_id)
+INSERT INTO figure_category (id_figure, id_category)
 VALUES
 (1, 1),
 (2, 1);
@@ -73,17 +73,17 @@ VALUES
 
 INSERT INTO customer_order (
     price, final_price, discount, status,
-    installments_count, customer_id
+    installments_count, id_customer
 )
 VALUES
 (249.90, 224.91, 24.99, 'PAID', 1, 1);
 
-INSERT INTO customer_order_coupons (customer_order_id, coupon_id)
+INSERT INTO customer_order_coupons (id_customer_order, coupon)
 VALUES
 (1, 1);
 
 INSERT INTO customer_order_figure (
-    customer_order_id, figure_id, quantity, price
+    id_customer_order, id_figure, quantity, price
 )
 VALUES
 (1, 2, 1, 249.90);
@@ -96,7 +96,7 @@ VALUES
 
 INSERT INTO payment (
     pay_value, installment_number, pay_date,
-    valid_date, payment_type_id, customer_order_id
+    valid_date, id_payment_type, id_customer_order
 )
 VALUES
 (224.91, 1, NOW(), '2026-12-31', 1, 1);
