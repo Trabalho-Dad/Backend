@@ -3,6 +3,7 @@ package com.dad.sales_api.shared.config;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import com.dad.sales_api.shared.exceptions.SalesException;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,22 +35,26 @@ public class GlobalExceptionHandler {
   public ResponseEntity<Map<String, Object>> handleException(Exception ex) {
     return ResponseEntity
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .body(Map.of(
-        "status", HttpStatus.INTERNAL_SERVER_ERROR,
-        "message", ex.getMessage(),
+      .body(
+        Map.of(
+        "status", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+        "message", ex.getMessage() != null ? ex.getMessage() : "Erro interno inesperado.",
         "timestamp", Instant.now().toString()
-      ));
+        )
+      );
   }
 
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
-    return ResponseEntity
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .body(Map.of(
-        "status", HttpStatus.INTERNAL_SERVER_ERROR,
-        "message", ex.getMessage(),
-        "timestamp", Instant.now().toString()
-      ));
+      return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(
+          Map.of(
+          "status", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+          "message", ex.getMessage() != null ? ex.getMessage() : "Erro interno inesperado.",
+          "timestamp", Instant.now().toString()
+          )
+        );
   }
 
   @ExceptionHandler(NoResourceFoundException.class)
@@ -79,6 +85,17 @@ public class GlobalExceptionHandler {
             Instant.now().toString(),
             "400 BAD_REQUEST"
         )
+    );
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+    String message = ex.getConstraintViolations().stream()
+      .map(v -> v.getMessage())
+      .collect(Collectors.joining(", "));
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+      new ErrorResponse(message, Instant.now().toString(), "400 BAD_REQUEST")
     );
   }
 

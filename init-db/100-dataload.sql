@@ -1,11 +1,11 @@
 INSERT INTO admin (cpf, name, email, password)
 VALUES
-('123.456.789-00', 'Admin Master', 'admin@system.com', '$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu');
+('123.456.789-00', 'Admin Master', 'admin@system.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu');
 
 INSERT INTO customer (name, email, password)
 VALUES
-('João Silva', 'joao@email.com', '$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu'),
-('Maria Souza', 'maria@email.com', '$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu');
+('João Silva', 'joao@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu'),
+('Maria Souza', 'maria@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu');
 
 INSERT INTO contact_type (name)
 VALUES

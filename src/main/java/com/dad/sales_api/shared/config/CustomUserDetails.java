@@ -3,7 +3,7 @@ package com.dad.sales_api.shared.config;
 import java.util.List;
 import org.springframework.security.core.userdetails.User;
 
-import com.dad.sales_api.shared.enums.RoleEnum;
+import com.dad.sales_api.shared.utils.enums.RoleEnum;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

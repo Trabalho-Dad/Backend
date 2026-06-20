@@ -68,4 +68,17 @@ public class FigureEntity {
 
   @OneToMany(mappedBy = "figure")
   private List<CustomerOrderFigureEntity> orders;
+
+  public FigureEntity(String name, String description, BigDecimal price, String imgUrl, Integer quantity,
+      Boolean active, CharacterEntity character, List<AccessoryEntity> accessories, List<CategoryEntity> categories) {
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.imgUrl = imgUrl;
+    this.quantity = quantity;
+    this.active = active;
+    this.character = character;
+    this.accessories = accessories;
+    this.categories = categories;
+  }
 }
