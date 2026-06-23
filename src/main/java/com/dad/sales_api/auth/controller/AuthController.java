@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.dad.sales_api.auth.dto.input.LoginInputDTO;
+import com.dad.sales_api.auth.dto.input.RegisterInputDTO;
 import com.dad.sales_api.auth.dto.output.LoginOutputDTO;
+import com.dad.sales_api.auth.dto.output.RegisterOutputDTO;
 import com.dad.sales_api.auth.dto.request.LoginRequestDTO;
+import com.dad.sales_api.auth.dto.request.RegisterRequestDTO;
 import com.dad.sales_api.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 
@@ -26,5 +29,19 @@ public class AuthController {
     return ResponseEntity
       .status(response.status())
       .body(response);
+  }
+  
+  @PostMapping("/register")
+  public ResponseEntity<RegisterOutputDTO> register(
+      @RequestBody
+      RegisterRequestDTO input
+  ) {
+    return ResponseEntity
+      .status(201)
+      .body(
+        authService.register(
+          new RegisterInputDTO(input)
+        )
+      );
   }
 }
