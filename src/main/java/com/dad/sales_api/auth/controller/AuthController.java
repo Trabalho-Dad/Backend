@@ -12,6 +12,8 @@ import com.dad.sales_api.auth.dto.output.RegisterOutputDTO;
 import com.dad.sales_api.auth.dto.request.LoginRequestDTO;
 import com.dad.sales_api.auth.dto.request.RegisterRequestDTO;
 import com.dad.sales_api.auth.service.AuthService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,6 +25,7 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<LoginOutputDTO> login(
     @RequestBody
+    @Valid
     LoginRequestDTO input
   ) {
     LoginOutputDTO response = authService.login(new LoginInputDTO(input)); 
@@ -34,6 +37,7 @@ public class AuthController {
   @PostMapping("/register")
   public ResponseEntity<RegisterOutputDTO> register(
       @RequestBody
+      @Valid
       RegisterRequestDTO input
   ) {
     return ResponseEntity

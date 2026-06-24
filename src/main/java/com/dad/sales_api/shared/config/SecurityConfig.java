@@ -11,9 +11,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.dad.sales_api.shared.entities.AdminEntity;
 import com.dad.sales_api.shared.entities.CustomerEntity;
-import com.dad.sales_api.shared.enums.RoleEnum;
 import com.dad.sales_api.shared.repositories.AdminRepository;
 import com.dad.sales_api.shared.repositories.CustomerRepository;
+import com.dad.sales_api.shared.utils.enums.RoleEnum;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
@@ -75,8 +76,9 @@ public class SecurityConfig implements UserDetailsService {
           "/auth/register",
           "/auth/login",
           "/figures",
-          "/figures/*"
+          "/figures/**"
         ).permitAll()
+        .requestMatchers("/admin/**").hasRole("ADMIN")
           .anyRequest().authenticated()
       )
       .addFilterBefore(

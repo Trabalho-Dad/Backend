@@ -34,5 +34,18 @@ public class CharacterEntity {
   @OneToMany(mappedBy = "character")
   private List<FigureEntity> figures;
 
-  private Boolean active;
+  private Boolean active = true;
+
+  public CharacterEntity(Integer id, String name, String description, Boolean active){
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.active = active;
+  }
+
+  public CharacterEntity(String name, String description, Boolean active){
+    this.name = name;
+    this.description = description;
+    this.active = active != null ? active : this.active;
+  }
 }

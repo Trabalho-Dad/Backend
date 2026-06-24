@@ -36,4 +36,10 @@ public class CategoryEntity {
 
   @ManyToMany(mappedBy = "categories")
   private List<FigureEntity> figures;
+
+  public CategoryEntity(String name, String description, Boolean active){
+    this.name = name;
+    this.description = description;
+    this.active = active;
+  }
 }

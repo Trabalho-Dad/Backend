@@ -6,7 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.dad.sales_api.shared.enums.RoleEnum;
+import com.dad.sales_api.shared.utils.enums.RoleEnum;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
