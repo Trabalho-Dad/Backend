@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController("publicFigureController")
-@RequestMapping("/figures")
+@RequestMapping("/figure")
 @RequiredArgsConstructor
 public class FigureController {
   private final FigureService figureService;
