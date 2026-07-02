@@ -34,6 +34,9 @@ public class CharacterEntity {
   @OneToMany(mappedBy = "character")
   private List<FigureEntity> figures;
 
+  @OneToMany(mappedBy = "character")
+  private List<ImageEntity> images;
+
   private Boolean active = true;
 
   public CharacterEntity(Integer id, String name, String description, Boolean active){
@@ -43,9 +46,10 @@ public class CharacterEntity {
     this.active = active;
   }
 
-  public CharacterEntity(String name, String description, Boolean active){
+  public CharacterEntity(String name, String description, Boolean active, List<ImageEntity> entities){
     this.name = name;
     this.description = description;
     this.active = active != null ? active : this.active;
+    this.images = entities;
   }
 }

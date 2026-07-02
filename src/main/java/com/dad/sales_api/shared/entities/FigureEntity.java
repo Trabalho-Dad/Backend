@@ -39,9 +39,6 @@ public class FigureEntity {
   @Column(precision = 10, scale = 2, nullable = false)
   private BigDecimal price;
 
-  @Column(nullable = false, name = "img_url")
-  private String imgUrl;
-
   private Integer quantity;
 
   private Boolean active;
@@ -52,9 +49,9 @@ public class FigureEntity {
 
   @ManyToMany
   @JoinTable(
-    name = "figure_acessory",
+    name = "figure_accessory",
     joinColumns = @JoinColumn(name = "id_figure"),
-    inverseJoinColumns = @JoinColumn(name = "id_acessory")
+    inverseJoinColumns = @JoinColumn(name = "id_accessory")
   )
   private List<AccessoryEntity> accessories;
 
@@ -69,16 +66,19 @@ public class FigureEntity {
   @OneToMany(mappedBy = "figure")
   private List<CustomerOrderFigureEntity> orders;
 
-  public FigureEntity(String name, String description, BigDecimal price, String imgUrl, Integer quantity,
-      Boolean active, CharacterEntity character, List<AccessoryEntity> accessories, List<CategoryEntity> categories) {
+  @OneToMany(mappedBy = "figure")
+  private List<ImageEntity> images;
+
+  public FigureEntity(String name, String description, BigDecimal price, Integer quantity,
+      Boolean active, CharacterEntity character, List<AccessoryEntity> accessories, List<CategoryEntity> categories, List<ImageEntity> images) {
     this.name = name;
     this.description = description;
     this.price = price;
-    this.imgUrl = imgUrl;
     this.quantity = quantity;
     this.active = active;
     this.character = character;
     this.accessories = accessories;
     this.categories = categories;
+    this.images = images;
   }
 }

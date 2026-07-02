@@ -9,24 +9,24 @@ public record CreateFigureInputDTO(
   String name,
   String description,
   BigDecimal price,
-  String imgUrl,
   Integer quantity,
   Boolean active,
   Integer characterId,
   List<Integer> accessoryIds,
-  List<Integer> categoryIds
+  List<Integer> categoryIds,
+  List<Integer> imageIds
 ) {
   public CreateFigureInputDTO(CreateFigureRequestDTO input){
     this(
       input.name(),
       input.description(),
       input.price(),
-      input.imgUrl(),
       input.quantity(),
       input.active(),
       input.characterId(),
       input.accessoryIds(),
-      input.categoryIds() 
+      input.categoryIds() ,
+      input.imageIds()
     );
   }
 }

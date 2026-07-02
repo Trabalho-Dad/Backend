@@ -6,21 +6,23 @@ import java.util.List;
 import com.dad.sales_api.shared.dto.AccessorySimpleDTO;
 import com.dad.sales_api.shared.dto.CategorySimpleDTO;
 import com.dad.sales_api.shared.dto.CharacterSimpleDTO;
+import com.dad.sales_api.shared.dto.ImageSimpleDTO;
 import com.dad.sales_api.shared.entities.FigureEntity;
 import com.dad.sales_api.shared.utils.mappers.AccessoryMapper;
 import com.dad.sales_api.shared.utils.mappers.CategoryMapper;
+import com.dad.sales_api.shared.utils.mappers.ImageMapper;
 
 public record CreateFigureOutputDTO(
   Integer id,
   String name,
   String description,
   BigDecimal price,
-  String imgUrl,
   Integer quantity,
   Boolean active,
   CharacterSimpleDTO character,
   List<CategorySimpleDTO> categories,
-  List<AccessorySimpleDTO> acessories
+  List<AccessorySimpleDTO> acessories,
+  List<ImageSimpleDTO> images
 ) {
   public CreateFigureOutputDTO(FigureEntity entity){
     this(
@@ -28,7 +30,6 @@ public record CreateFigureOutputDTO(
       entity.getName(),
       entity.getDescription(),
       entity.getPrice(),
-      entity.getImgUrl(),
       entity.getQuantity(),
       entity.getActive(),
       new CharacterSimpleDTO(entity.getCharacter()),
@@ -39,6 +40,10 @@ public record CreateFigureOutputDTO(
       entity.getAccessories()
         .stream()
         .map(AccessoryMapper::convertToSimpleDTO)
+        .toList(),
+      entity.getImages()
+        .stream()
+        .map(ImageMapper::convertEntityToSimpleDTO)
         .toList()
     );
   }

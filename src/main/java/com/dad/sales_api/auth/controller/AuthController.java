@@ -28,7 +28,8 @@ public class AuthController {
     @Valid
     LoginRequestDTO input
   ) {
-    LoginOutputDTO response = authService.login(new LoginInputDTO(input)); 
+    LoginOutputDTO response = authService.login(new LoginInputDTO(input));
+
     return ResponseEntity
       .status(response.status())
       .body(response);

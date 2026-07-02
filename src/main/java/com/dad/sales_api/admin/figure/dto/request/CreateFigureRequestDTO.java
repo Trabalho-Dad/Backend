@@ -5,13 +5,7 @@ import java.util.List;
 
 import com.dad.sales_api.shared.utils.SalesConstants;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record CreateFigureRequestDTO(
   @NotBlank(message = "O nome é obrigatório")
@@ -29,9 +23,6 @@ public record CreateFigureRequestDTO(
   @DecimalMin(value = "0.01", message = "O preço deve ser maior que zero")
   BigDecimal price,
 
-  @NotBlank(message = "A URL da imagem é obrigatória")
-  String imgUrl,
-
   @NotNull(message = "A quantidade é obrigatória")
   @PositiveOrZero(message = "A quantidade não pode ser negativa")
   Integer quantity,
@@ -46,17 +37,20 @@ public record CreateFigureRequestDTO(
   List<@Positive(message = "Os ids dos acessórios devem ser maiores que zero") Integer> accessoryIds,
 
   @NotEmpty(message = "É necessário informar ao menos uma categoria")
-  List<@Positive(message = "Os ids das categorias devem ser maiores que zero") Integer> categoryIds
+  List<@Positive(message = "Os ids das categorias devem ser maiores que zero") Integer> categoryIds,
+
+  @NotEmpty(message = "É necessário informar ao menos uma image")
+  List<@Positive(message = "Os ids das images devem ser maiores que zero") Integer> imageIds
 ) {
-  public CreateFigureRequestDTO(String name, String description, BigDecimal price, String imgUrl, Integer quantity, Boolean active, Integer characterId, List<Integer> accessoryIds, List<Integer> categoryIds){
+  public CreateFigureRequestDTO(String name, String description, BigDecimal price, Integer quantity, Boolean active, Integer characterId, List<Integer> accessoryIds, List<Integer> categoryIds, List<Integer> imageIds){
     this.name = name;
     this.description = description;
     this.price = price;
-    this.imgUrl = imgUrl;
     this.quantity = quantity;
     this.active = active != null ? active : false;
     this.characterId = characterId;
     this.accessoryIds = accessoryIds;
     this.categoryIds = categoryIds;
+    this.imageIds = imageIds;
   }
 }

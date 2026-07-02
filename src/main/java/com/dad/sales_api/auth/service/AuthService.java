@@ -28,7 +28,6 @@ public class AuthService {
 
 
   public LoginOutputDTO login(LoginInputDTO input) {
-    System.out.println("ENTROU NO LOGIN");
     String email = input.email();
     String senha = input.password();
 

@@ -32,7 +32,6 @@ public record RegisterRequestDTO(
         message = "A senha deve conter pelo menos uma letra minúscula, uma maiúscula e um número"
     )
     String password
-
 ) {
     
 }

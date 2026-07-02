@@ -88,7 +88,8 @@ public class CharacterController {
         new CreateCharacterInputDTO(
           input.name(),
           input.description(),
-          input.active()
+          input.active(),
+          input.imageIds()
         )
       )
     );

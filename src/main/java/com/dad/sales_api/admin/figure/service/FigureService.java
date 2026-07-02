@@ -16,18 +16,22 @@ import com.dad.sales_api.shared.entities.AccessoryEntity;
 import com.dad.sales_api.shared.entities.CategoryEntity;
 import com.dad.sales_api.shared.entities.CharacterEntity;
 import com.dad.sales_api.shared.entities.FigureEntity;
+import com.dad.sales_api.shared.entities.ImageEntity;
 import com.dad.sales_api.shared.exceptions.NotFoundException;
 import com.dad.sales_api.shared.exceptions.BadRequestException;
 import com.dad.sales_api.shared.repositories.AccessoryRepository;
 import com.dad.sales_api.shared.repositories.CategoryRepository;
 import com.dad.sales_api.shared.repositories.CharacterRepository;
 import com.dad.sales_api.shared.repositories.FigureRepository;
+import com.dad.sales_api.shared.repositories.ImageRepository;
 import com.dad.sales_api.shared.specifications.CategorySpecification;
 import com.dad.sales_api.shared.specifications.FigureSpecification;
 import com.dad.sales_api.shared.utils.mappers.AccessoryMapper;
 import com.dad.sales_api.shared.utils.mappers.CategoryMapper;
 import com.dad.sales_api.shared.utils.mappers.CharacterMapper;
 import com.dad.sales_api.shared.utils.mappers.FigureMapper;
+import com.dad.sales_api.shared.utils.mappers.ImageMapper;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +42,9 @@ public class FigureService {
   private final CategoryRepository categoryRepository;
   private final CharacterRepository characterRepository;
   private final AccessoryRepository accessoryRepository;
+  private final ImageRepository imageRepository;
 
+  @Transactional
   public FindManyFiguresOutputDTO findMany(FindManyFiguresInputDTO input){
     Specification<FigureEntity> spec = Specification
       .where(FigureSpecification.withName(input.name()))
@@ -76,7 +82,6 @@ public class FigureService {
       figure.getName(),
       figure.getDescription(),
       figure.getPrice(),
-      figure.getImgUrl(),
       figure.getQuantity(),
       figure.getActive(),
       CharacterMapper.convertToSimpleDTO(figure.getCharacter()),
@@ -87,6 +92,10 @@ public class FigureService {
       figure.getCategories()
         .stream()
         .map(CategoryMapper::convertEntityToSimpleDTO)
+        .toList(),
+      figure.getImages()
+        .stream()
+        .map(ImageMapper::convertEntityToSimpleDTO)
         .toList()
     );
   }
@@ -107,16 +116,19 @@ public class FigureService {
     List<AccessoryEntity> accessories = accessoryRepository.findAllById(input.accessoryIds());
     if (accessories.size() == 0) throw new NotFoundException("Nenhum dos acessórios foram encontrados");
 
+    List<ImageEntity> images = imageRepository.findAllById(input.accessoryIds());
+    if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens foram encontradas");
+
     FigureEntity figure = new FigureEntity(
       input.name(),
       input.description(),
       input.price(),
-      input.imgUrl(),
       input.quantity(),
       character.getActive() ? input.active() : Boolean.FALSE,
       character,
       accessories,
-      categories
+      categories,
+      images
     );
 
     figureRepository.save(figure);

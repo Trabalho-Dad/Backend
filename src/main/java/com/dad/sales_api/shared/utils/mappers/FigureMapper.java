@@ -10,9 +10,9 @@ public class FigureMapper {
       entity.getName(),
       entity.getDescription(),
       entity.getPrice(),
-      entity.getImgUrl(),
       entity.getQuantity(),
-      entity.getActive()
+      entity.getActive(),
+      entity.getImages().stream().map(ImageMapper::convertEntityToSimpleDTO).toList()
     );
   }
 }

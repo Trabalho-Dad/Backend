@@ -18,6 +18,8 @@ import com.dad.sales_api.shared.specifications.FigureSpecification;
 import com.dad.sales_api.shared.utils.mappers.AccessoryMapper;
 import com.dad.sales_api.shared.utils.mappers.CategoryMapper;
 import com.dad.sales_api.shared.utils.mappers.CharacterMapper;
+import com.dad.sales_api.shared.utils.mappers.FigureMapper;
+import com.dad.sales_api.shared.utils.mappers.ImageMapper;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +51,7 @@ public class FigureService {
     ).getContent();
 
     List<FigureSimpleDTO> output = figures.stream()
-      .map(this::toDTO)
+      .map(FigureMapper::convertEntityToSimpleDTO)
       .toList();
 
     return new FindManyFiguresOutputDTO(output, totalPages, count);
@@ -68,7 +70,6 @@ public class FigureService {
       entity.getName(),
       entity.getDescription(),
       entity.getPrice(),
-      entity.getImgUrl(),
       entity.getQuantity(),
       entity.getActive(),
       CharacterMapper.convertToSimpleDTO(entity.getCharacter()),
@@ -79,19 +80,11 @@ public class FigureService {
       entity.getCategories()
         .stream()
         .map(CategoryMapper::convertEntityToSimpleDTO)
+        .toList(),
+      entity.getImages()
+        .stream()
+        .map(ImageMapper::convertEntityToSimpleDTO)
         .toList()
-    );
-  }
-
-  private FigureSimpleDTO toDTO(FigureEntity figure) {
-    return new FigureSimpleDTO(
-      figure.getId(),
-      figure.getName(),
-      figure.getDescription(),
-      figure.getPrice(),
-      figure.getImgUrl(),
-      figure.getQuantity(),
-      figure.getActive()
     );
   }
 }

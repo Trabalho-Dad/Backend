@@ -1,14 +1,10 @@
--- ============================================================
--- Schema gerado a partir do diagrama ER
--- ============================================================
-
 -- ------------------------------------------------------------
--- Tabelas independentes (sem FK)
+-- Tabelas independentes
 -- ------------------------------------------------------------
 
 CREATE TABLE contact_type (
     id   SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    type VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE admin (
@@ -17,13 +13,6 @@ CREATE TABLE admin (
     name VARCHAR(150) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE character (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
-    description TEXT,
-    active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE payment_type (
@@ -73,14 +62,14 @@ CREATE TABLE address (
 );
 
 -- ------------------------------------------------------------
--- accessory
+-- character
 -- ------------------------------------------------------------
 
-CREATE TABLE accessory (
-    id          SERIAL PRIMARY KEY,
-    name        VARCHAR(150) NOT NULL,
-    description TEXT,
-    img_url     VARCHAR(500)
+CREATE TABLE character (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    active BOOLEAN DEFAULT TRUE
 );
 
 -- ------------------------------------------------------------
@@ -92,23 +81,50 @@ CREATE TABLE figure (
     name        VARCHAR(150) NOT NULL,
     description TEXT,
     price       NUMERIC(10,2) NOT NULL,
-    img_url     VARCHAR(500) NOT NULL,
     quantity    INT DEFAULT 0,
     active      BOOLEAN DEFAULT TRUE,
     id_character INT NOT NULL REFERENCES character(id)
 );
+
+-- ------------------------------------------------------------
+-- image
+-- ------------------------------------------------------------
+
+CREATE TABLE image(
+    id            SERIAL PRIMARY KEY,
+    description   TEXT NOT NULL,
+    url           VARCHAR(500) NOT NULL,
+    image_type    INT NOT NULL,
+    id_character  INT REFERENCES character(id),
+    id_figure     INT REFERENCES figure(id)
+);
+
+-- ------------------------------------------------------------
+-- accessory
+-- ------------------------------------------------------------
+
+CREATE TABLE accessory (
+    id          SERIAL PRIMARY KEY,
+    name        VARCHAR(150) NOT NULL,
+    description TEXT,
+    id_image    INT NOT NULL UNIQUE REFERENCES image(id)
+);
+
+CREATE TABLE figure_accessory (
+    id_figure   INT NOT NULL REFERENCES figure(id),
+    id_accessory INT NOT NULL REFERENCES accessory(id),
+    PRIMARY KEY (id_figure, id_accessory)
+);
+
+-- ------------------------------------------------------------
+-- category
+-- ------------------------------------------------------------
 
 CREATE TABLE category(
     id SERIAL PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
     description TEXT,
     active BOOLEAN NOT NULL DEFAULT TRUE
-);
-
-CREATE TABLE figure_acessory (
-    id_figure   INT NOT NULL REFERENCES figure(id),
-    id_acessory INT NOT NULL REFERENCES accessory(id),
-    PRIMARY KEY (id_figure, id_acessory)
 );
 
 CREATE TABLE figure_category(
@@ -176,9 +192,9 @@ CREATE TABLE payment (
     id_customer_order INT NOT NULL REFERENCES customer_order(id)
 );
 
--- ============================================================
--- Índices sugeridos
--- ============================================================
+-- ------------------------------------------------------------
+-- Índices
+-- ------------------------------------------------------------
 
 CREATE INDEX idx_contact_id_customer
 ON contact(id_customer);
@@ -191,3 +207,15 @@ ON customer_order(id_customer);
 
 CREATE INDEX idx_payment_id_payment_type
 ON payment(id_payment_type);
+
+CREATE INDEX idx_figure_character
+    ON figure(id_character);
+
+CREATE INDEX idx_image_character
+    ON image(id_character);
+
+CREATE INDEX idx_image_figure
+    ON image(id_figure);
+
+CREATE INDEX idx_payment_order
+    ON payment(id_customer_order);

@@ -18,11 +18,14 @@ import com.dad.sales_api.admin.character.dto.output.UpdateCharacterOutputDTO;
 import com.dad.sales_api.shared.dto.CharacterSimpleDTO;
 import com.dad.sales_api.shared.entities.CharacterEntity;
 import com.dad.sales_api.shared.entities.FigureEntity;
+import com.dad.sales_api.shared.entities.ImageEntity;
 import com.dad.sales_api.shared.exceptions.NotFoundException;
 import com.dad.sales_api.shared.repositories.CharacterRepository;
+import com.dad.sales_api.shared.repositories.ImageRepository;
 import com.dad.sales_api.shared.specifications.CharacterSpecification;
 import com.dad.sales_api.shared.utils.mappers.CharacterMapper;
 import com.dad.sales_api.shared.utils.mappers.FigureMapper;
+import com.dad.sales_api.shared.utils.mappers.ImageMapper;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CharacterService {
   private final CharacterRepository characterRepository;
+  private final ImageRepository imageRepository;
 
   public FindManyCharacterOutputDTO findMany(
     FindManyCharactersInputDTO input
@@ -73,7 +77,8 @@ public class CharacterService {
       character.getName(),
       character.getDescription(),
       character.getActive(),
-      character.getFigures().stream().map(FigureMapper::convertEntityToSimpleDTO).toList()
+      character.getFigures().stream().map(FigureMapper::convertEntityToSimpleDTO).toList(),
+      character.getImages().stream().map(ImageMapper::convertEntityToSimpleDTO).toList()
     );
   }
 
@@ -98,10 +103,10 @@ public class CharacterService {
       entity.getDescription(),
       entity.getActive()
     );
-}
+  }
 
-@Transactional
-public UpdateCharacterOutputDTO updateStatus(Integer id){
+  @Transactional
+  public UpdateCharacterOutputDTO updateStatus(Integer id){
     CharacterEntity entity = find(id);
     Boolean active = entity.getActive();
 
@@ -130,13 +135,17 @@ public UpdateCharacterOutputDTO updateStatus(Integer id){
       entity.getDescription(),
       entity.getActive()
     );
-}
+  }
 
   public CreateCharacterOutputDTO create(CreateCharacterInputDTO input){
+    List<ImageEntity> images = imageRepository.findAllById(input.imageIds());
+    if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens informadas foi encontrada");
+
     CharacterEntity entity = new CharacterEntity(
       input.name(),
       input.description(),
-      input.active()
+      input.active(),
+      images
     );
 
     characterRepository.save(entity);
@@ -151,7 +160,7 @@ public UpdateCharacterOutputDTO updateStatus(Integer id){
 
   private CharacterEntity find(Integer id){
     return characterRepository.findById(id).orElseThrow(
-      () -> new NotFoundException(null)
+      () -> new NotFoundException("Personagem não foi encontrado.")
     );
   }
 }

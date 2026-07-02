@@ -9,7 +9,7 @@ public class AccessoryMapper {
       entity.getId(),
       entity.getName(),
       entity.getDescription(),
-      entity.getImgUrl()
+      ImageMapper.convertEntityToSimpleDTO(entity.getImage())
     );
   } 
 }

@@ -4,7 +4,7 @@ public record AccessorySimpleDTO(
   Integer id,
   String name,
   String description,
-  String imgUrl
+  ImageSimpleDTO image
 ) {
   
 }

@@ -26,7 +26,7 @@ public class ContactTypeEntity {
   private Integer id;
 
   @Column(nullable = false, length = 100)
-  private String name;
+  private String type;
 
   @OneToMany(mappedBy = "contactType")
   private List<ContactEntity> contacts;
