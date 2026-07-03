@@ -2,6 +2,7 @@ package com.dad.sales_api.auth.service;
 
 import com.dad.sales_api.auth.dto.input.*;
 import com.dad.sales_api.auth.dto.output.ValidateCodeOutputDTO;
+import com.dad.sales_api.shared.enums.RoleEnum;
 import com.dad.sales_api.shared.exceptions.BadRequestException;
 import com.dad.sales_api.shared.exceptions.UnauthorizedException;
 import com.dad.sales_api.shared.helpers.services.CpfValidatorService;
@@ -84,6 +85,7 @@ public class AuthService {
     user.setName(input.name());
     user.setEmail(input.email());
     user.setCpf(input.cpf());
+    user.setRole(RoleEnum.CUSTOMER);
 
     user.setPassword(
       passwordEncoder.encode(input.password())
