@@ -1,6 +1,6 @@
 package com.dad.sales_api.auth.dto.request;
 
-import com.dad.sales_api.shared.utils.SalesConstants;
+import com.dad.sales_api.shared.SalesConstants;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,7 +11,10 @@ public record LoginRequestDTO(
   String email,
 
   @NotBlank
-  @Size(min = SalesConstants.MIN_LENGTH_PASSWORD, max = SalesConstants.MAX_LENGTH_PASSWORD)
+  @Size(min = SalesConstants.MIN_PASSWORD_LENGTH, max = SalesConstants.MAX_PASSWORD_LENGTH, message = "A senha deve ter entre "
+      + SalesConstants.MIN_PASSWORD_LENGTH + " e "
+      + SalesConstants.MAX_PASSWORD_LENGTH + " caracteres."
+  )
   String password
 ) {
   

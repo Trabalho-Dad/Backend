@@ -1,6 +1,6 @@
 package com.dad.sales_api.admin.image.dto.output;
 
-import com.dad.sales_api.shared.utils.enums.ImageTypeEnum;
+import com.dad.sales_api.shared.enums.ImageTypeEnum;
 
 public record CreateImageOutputDTO(
   Integer id,

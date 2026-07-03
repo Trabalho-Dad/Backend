@@ -1,11 +1,3 @@
-INSERT INTO admin (cpf, name, email, password)
-VALUES (
-    '123.456.789-00',
-    'Admin Master',
-    'admin@system.com',
-    '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu'
-);
-
 -- ------------------------------------------------------------
 -- Payment Types
 -- ------------------------------------------------------------
@@ -27,19 +19,20 @@ VALUES
 ('WHATSAPP');
 
 -- ------------------------------------------------------------
--- Customers
+-- Users
 -- ------------------------------------------------------------
 
-INSERT INTO customer (name, email, password)
+INSERT INTO users (name, cpf, email, password, role)
 VALUES
-('João Silva', 'joao@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu'),
-('Maria Souza', 'maria@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu');
+('João Silva', '12345678910','joao@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 1),
+('Maria Souza', '12345678901', 'maria@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 1),
+('Astra Admin', '54161707860', 'admin@system.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 0;
 
 -- ------------------------------------------------------------
 -- Contacts
 -- ------------------------------------------------------------
 
-INSERT INTO contact (value, id_customer, id_contact_type)
+INSERT INTO contact (value, id_user, id_contact_type)
 VALUES
 ('11999999999',1,2),
 ('joao@email.com',1,1),
@@ -58,7 +51,7 @@ INSERT INTO address (
     neighborhood,
     street,
     number,
-    id_customer
+    id_user
 )
 VALUES
 (
@@ -149,7 +142,7 @@ VALUES
 
 INSERT INTO figure_accessory (
     id_figure,
-    id_acessory
+    id_accessory
 )
 VALUES
 (1,1),
@@ -190,26 +183,26 @@ VALUES
 -- Orders
 -- ------------------------------------------------------------
 
-INSERT INTO customer_order (
+INSERT INTO user_order (
     price,
     final_price,
     discount,
     status,
     installments_count,
-    id_customer
+    id_user
 )
 VALUES
 (249.90,224.91,24.99,'PAID',1,1);
 
-INSERT INTO customer_order_coupons (
-    id_customer_order,
+INSERT INTO user_order_coupons (
+    id_user_order,
     id_coupon
 )
 VALUES
 (1,1);
 
-INSERT INTO customer_order_figure (
-    id_customer_order,
+INSERT INTO user_order_figure (
+    id_user_order,
     id_figure,
     quantity,
     price
@@ -227,7 +220,7 @@ INSERT INTO payment (
     pay_date,
     valid_date,
     id_payment_type,
-    id_customer_order
+    id_user_order
 )
 VALUES
 (

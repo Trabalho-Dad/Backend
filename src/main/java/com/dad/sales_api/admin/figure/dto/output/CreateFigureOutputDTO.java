@@ -7,10 +7,10 @@ import com.dad.sales_api.shared.dto.AccessorySimpleDTO;
 import com.dad.sales_api.shared.dto.CategorySimpleDTO;
 import com.dad.sales_api.shared.dto.CharacterSimpleDTO;
 import com.dad.sales_api.shared.dto.ImageSimpleDTO;
-import com.dad.sales_api.shared.entities.FigureEntity;
-import com.dad.sales_api.shared.utils.mappers.AccessoryMapper;
-import com.dad.sales_api.shared.utils.mappers.CategoryMapper;
-import com.dad.sales_api.shared.utils.mappers.ImageMapper;
+import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
+import com.dad.sales_api.shared.mappers.AccessoryMapper;
+import com.dad.sales_api.shared.mappers.CategoryMapper;
+import com.dad.sales_api.shared.mappers.ImageMapper;
 
 public record CreateFigureOutputDTO(
   Integer id,

@@ -1,6 +1,6 @@
 package com.dad.sales_api.shared.dto;
 
-import com.dad.sales_api.shared.utils.enums.ImageTypeEnum;
+import com.dad.sales_api.shared.enums.ImageTypeEnum;
 
 public record ImageSimpleDTO(
   Integer id,

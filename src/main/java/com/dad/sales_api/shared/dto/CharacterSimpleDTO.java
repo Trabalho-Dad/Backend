@@ -1,6 +1,6 @@
 package com.dad.sales_api.shared.dto;
 
-import com.dad.sales_api.shared.entities.CharacterEntity;
+import com.dad.sales_api.shared.persistence.postgres.entities.CharacterEntity;
 
 public record CharacterSimpleDTO(
   Integer id,

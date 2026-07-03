@@ -1,6 +1,6 @@
 package com.dad.sales_api.admin.category.dto.output;
 
-import com.dad.sales_api.shared.entities.CategoryEntity;
+import com.dad.sales_api.shared.persistence.postgres.entities.CategoryEntity;
 
 public record UpdateCategoryOutputDTO (
   Integer id,

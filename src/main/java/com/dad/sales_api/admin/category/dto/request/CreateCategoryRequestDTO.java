@@ -1,6 +1,6 @@
 package com.dad.sales_api.admin.category.dto.request;
 
-import com.dad.sales_api.shared.utils.SalesConstants;
+import com.dad.sales_api.shared.SalesConstants;
 
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
@@ -8,11 +8,11 @@ import jakarta.validation.constraints.NotBlank;
 public record CreateCategoryRequestDTO(
   @NotBlank
   @Size(
-      min = SalesConstants.MIN_LENGTH_NAME,
-      max = SalesConstants.MAX_LENGTH_NAME,
+      min = SalesConstants.MIN_NAME_LENGTH,
+      max = SalesConstants.MAX_NAME_LENGTH,
       message = "O nome da categoria deve ter entre " +
-          SalesConstants.MIN_LENGTH_NAME + " e " +
-          SalesConstants.MAX_LENGTH_NAME + " caracteres"
+          SalesConstants.MIN_NAME_LENGTH + " e " +
+          SalesConstants.MAX_NAME_LENGTH + " caracteres"
   )
   String name,
   String description,

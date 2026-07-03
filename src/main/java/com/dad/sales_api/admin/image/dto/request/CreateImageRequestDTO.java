@@ -1,7 +1,7 @@
 package com.dad.sales_api.admin.image.dto.request;
 
-import com.dad.sales_api.shared.utils.SalesConstants;
-import com.dad.sales_api.shared.utils.enums.ImageTypeEnum;
+import com.dad.sales_api.shared.SalesConstants;
+import com.dad.sales_api.shared.enums.ImageTypeEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,9 +11,9 @@ public record CreateImageRequestDTO (
     String description,
 
     @NotBlank
-    @Size(min = SalesConstants.MIN_LENGTH_URL, max = SalesConstants.MAX_LENGTH_URL, message = "A url deve ter entre "
-        + SalesConstants.MIN_LENGTH_URL + " e "
-        + SalesConstants.MAX_LENGTH_URL + " caracteres."
+    @Size(min = SalesConstants.MIN_URL_LENGTH, max = SalesConstants.MAX_URL_LENGTH, message = "A url deve ter entre "
+        + SalesConstants.MIN_URL_LENGTH + " e "
+        + SalesConstants.MAX_URL_LENGTH + " caracteres."
     )
     String url,
 

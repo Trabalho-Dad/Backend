@@ -3,18 +3,19 @@ package com.dad.sales_api.admin.figure.dto.request;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.dad.sales_api.shared.utils.SalesConstants;
+import com.dad.sales_api.shared.SalesConstants;
 
 import jakarta.validation.constraints.*;
 
 public record CreateFigureRequestDTO(
   @NotBlank(message = "O nome é obrigatório")
+  @NotBlank
   @Size(
-    min = SalesConstants.MIN_LENGTH_NAME,
-    max = SalesConstants.MAX_LENGTH_NAME,
-    message = "O nome deve ter entre " +
-      SalesConstants.MIN_LENGTH_NAME + " e " +
-      SalesConstants.MAX_LENGTH_NAME + " caracteres"
+      min = SalesConstants.MIN_NAME_LENGTH,
+      max = SalesConstants.MAX_NAME_LENGTH,
+      message = "O nome do boneco deve ter entre " +
+          SalesConstants.MIN_NAME_LENGTH + " e " +
+          SalesConstants.MAX_NAME_LENGTH + " caracteres"
   )
   String name,
 

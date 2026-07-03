@@ -1,6 +1,6 @@
 package com.dad.sales_api.admin.image.dto.query_params;
 
-import com.dad.sales_api.shared.utils.enums.ImageTypeEnum;
+import com.dad.sales_api.shared.enums.ImageTypeEnum;
 import jakarta.validation.constraints.Min;
 
 public record FindManyImagesQueryParamsDTO(

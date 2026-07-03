@@ -2,7 +2,7 @@ package com.dad.sales_api.admin.figure.dto.output;
 
 import java.math.BigDecimal;
 
-import com.dad.sales_api.shared.entities.FigureEntity;
+import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 
 public record IncreaseOrDecreaseQuantityOutputDTO(
   Integer id,
