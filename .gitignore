@@ -34,3 +34,7 @@ build/
 
 ### .env ###
 .env
+
+### java files ###
+target/
+.mvn/

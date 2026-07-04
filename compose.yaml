@@ -4,14 +4,32 @@ services:
     container_name: postgres-sales
     restart: always
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_NAME:-dbsales}
+      POSTGRES_USER: ${POSTGRES_USER:-sa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-DefaultPassword}
     ports:
-      - "${DB_PORT}:5432"
+      - ${POSTGRES_PORT}:5432
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
 
+  mongodb:
+    image: mongo:8.0.13
+    container_name: sales_mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-mongo}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-password}
+    ports:
+      - ${MONGO_PORT:-27017}:27017
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo/init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
 volumes:
   postgres_data:
+    driver:
+      local
+  mongodb_data:
+    driver:
+      local

@@ -1,7 +1,7 @@
 package com.dad.sales_api.shared.mappers;
 
 import com.dad.sales_api.shared.dto.AccessorySimpleDTO;
-import com.dad.sales_api.shared.entities.AccessoryEntity;
+import com.dad.sales_api.shared.persistence.postgres.entities.AccessoryEntity;
 
 public class AccessoryMapper {
   public static AccessorySimpleDTO convertToSimpleDTO(AccessoryEntity entity){
@@ -9,7 +9,7 @@ public class AccessoryMapper {
       entity.getId(),
       entity.getName(),
       entity.getDescription(),
-      entity.getImgUrl()
+      ImageMapper.convertEntityToSimpleDTO(entity.getImage())
     );
   } 
 }

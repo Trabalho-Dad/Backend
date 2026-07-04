@@ -1,0 +1,53 @@
+email:
+  subject: "Default Subject"
+  message: "Default Message"
+
+server:
+  port: ${SALES_API_PORT}
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  profiles:
+    active: dev
+
+  application:
+    name: sales-application
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    open-in-view: false
+
+  mongodb:
+    authentication-database: admin
+    uri: ${MONGODB_URI}
+    auto-index-creation: true
+
+  mail:
+    host: smtp-relay.brevo.com
+    port: 587
+    username: ${BREVO_USERNAME}
+    password: ${BREVO_SMTP_KEY}
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enabled: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS}
+
+validator:
+  token: ${VALIDATOR_API_TOKEN}
