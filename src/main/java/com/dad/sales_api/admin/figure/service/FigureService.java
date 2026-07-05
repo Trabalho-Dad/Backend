@@ -126,6 +126,7 @@ public class FigureService {
       input.price(),
       input.quantity(),
       character.getActive() ? input.active() : Boolean.FALSE,
+      Boolean.TRUE,
       character,
       accessories,
       categories,

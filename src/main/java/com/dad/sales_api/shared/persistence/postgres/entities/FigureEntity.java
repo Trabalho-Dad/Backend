@@ -73,12 +73,13 @@ public class FigureEntity {
   private List<ImageEntity> images;
 
   public FigureEntity(String name, String description, BigDecimal price, Integer quantity,
-      Boolean active, CharacterEntity character, List<AccessoryEntity> accessories, List<CategoryEntity> categories, List<ImageEntity> images) {
+      Boolean active, Boolean isLaunch, CharacterEntity character, List<AccessoryEntity> accessories, List<CategoryEntity> categories, List<ImageEntity> images) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.quantity = quantity;
     this.active = active;
+    this.isLaunch = isLaunch;
     this.character = character;
     this.accessories = accessories;
     this.categories = categories;
