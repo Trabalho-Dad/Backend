@@ -43,6 +43,9 @@ public class FigureEntity {
 
   private Boolean active;
 
+  @Column(name = "is_launch")
+  private Boolean isLaunch;
+
   @ManyToOne()
   @JoinColumn(name = "id_character", nullable = false)
   private CharacterEntity character;

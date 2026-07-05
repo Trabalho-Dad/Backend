@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.dad.sales_api.admin.figure.dto.request.CreateFigureRequestDTO;
+import com.dad.sales_api.shared.helpers.NormalizeInput;
 
 public record CreateFigureInputDTO(
   String name,
@@ -18,8 +19,8 @@ public record CreateFigureInputDTO(
 ) {
   public CreateFigureInputDTO(CreateFigureRequestDTO input){
     this(
-      input.name(),
-      input.description(),
+      NormalizeInput.name(input.name()),
+      NormalizeInput.description(input.description()),
       input.price(),
       input.quantity(),
       input.active(),

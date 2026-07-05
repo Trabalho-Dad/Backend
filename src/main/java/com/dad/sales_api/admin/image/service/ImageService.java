@@ -2,7 +2,7 @@ package com.dad.sales_api.admin.image.service;
 
 import com.dad.sales_api.admin.image.dto.input.FindManyImagesInputDTO;
 import com.dad.sales_api.admin.image.dto.output.FindManyImagesOutputDTO;
-import com.dad.sales_api.shared.dto.ImageSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.ImageSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.specifications.ImageSpecification;
 import com.dad.sales_api.shared.mappers.ImageMapper;
 import org.springframework.data.domain.PageRequest;

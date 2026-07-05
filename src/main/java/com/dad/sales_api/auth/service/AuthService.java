@@ -114,7 +114,7 @@ public class AuthService {
         PasswordResetCode passwordResetCode = new PasswordResetCode(
             email,
             user.getRole(),
-            code,
+            String.valueOf(code),
             LocalDateTime.now().plusMinutes(15)
         );
 

@@ -56,14 +56,12 @@ public class JwtUtils {
   }
 
   public Integer getIdFromToken(String token) {
-    String role = Jwts.parser()
-      .verifyWith(key())
-      .build()
-      .parseSignedClaims(token)
-      .getPayload()
-      .get("id", String.class);
-
-    return Integer.valueOf(role);
+    return Jwts.parser()
+        .verifyWith(key())
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .get("id", Integer.class);
   }
 
   public boolean validateToken(String token) {

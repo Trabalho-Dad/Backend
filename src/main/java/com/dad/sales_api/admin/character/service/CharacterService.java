@@ -15,7 +15,7 @@ import com.dad.sales_api.admin.character.dto.output.CreateCharacterOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.FindCharacterByIdOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.FindManyCharacterOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.UpdateCharacterOutputDTO;
-import com.dad.sales_api.shared.dto.CharacterSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.CharacterSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.CharacterEntity;
 import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 import com.dad.sales_api.shared.persistence.postgres.entities.ImageEntity;

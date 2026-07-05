@@ -1,5 +1,6 @@
 package com.dad.sales_api.auth.dto.request;
 
+import com.dad.sales_api.shared.helpers.RegexPatterns;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -13,20 +14,23 @@ public record RegisterRequestDTO(
         + SalesConstants.MIN_NAME_LENGTH + " e "
         + SalesConstants.MAX_NAME_LENGTH + " letras.")
     @Pattern(
-        regexp = "^[A-ZÀ-Ý][a-zA-ZÀ-ÿ]*(\\s[A-ZÀ-Ý][a-zA-ZÀ-ÿ]*)*$",
+        regexp = RegexPatterns.NAME,
         message = "O nome deve começar com letra maiúscula e conter apenas letras."
     )
     String name,
 
     @NotBlank
     @Pattern(
-        regexp = "^(\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$",
+        regexp = RegexPatterns.CPF,
         message = "O CPF deve estar no formato 99999999999 ou 999.999.999-99"
     )
     String cpf,
 
     @NotBlank
-    @Email
+    @Email(message = "Formato de email inválido.")
+    @Size(min = SalesConstants.MIN_EMAIL_LENGTH, max = SalesConstants.MAX_EMAIL_LENGTH, message = "O email deve ter entre "
+        + SalesConstants.MIN_EMAIL_LENGTH + " e "
+        + SalesConstants.MAX_EMAIL_LENGTH + " caracteres.")
     String email,
 
     @NotBlank
@@ -35,7 +39,7 @@ public record RegisterRequestDTO(
         + SalesConstants.MAX_NAME_LENGTH + " caracteres."
     )
     @Pattern(
-        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
+        regexp = RegexPatterns.PASSWORD,
         message = "A senha deve conter pelo menos uma letra minúscula, uma maiúscula e um número"
     )
     String password

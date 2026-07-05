@@ -21,29 +21,17 @@ public class PasswordResetCode {
   private String id;
   private String email;
   private RoleEnum role;
-  private Integer code;
+  private String code;
   private Boolean used;
 
   @Indexed
   private LocalDateTime expiresAt;
 
-  public PasswordResetCode(String email, RoleEnum role, Integer code, LocalDateTime expiresAt) {
+  public PasswordResetCode(String email, RoleEnum role, String code, LocalDateTime expiresAt) {
     this.email = email;
     this.role = role;
     this.code = code;
     this.expiresAt = expiresAt;
     this.used = false;
-  }
-
-  @Override
-  public String toString() {
-    return "PasswordResetCode{" +
-        "id='" + id + '\'' +
-        ", email='" + email + '\'' +
-        ", role=" + role +
-        ", code=" + code +
-        ", used=" + used +
-        ", expiresAt=" + expiresAt +
-        '}';
   }
 }

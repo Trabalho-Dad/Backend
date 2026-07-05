@@ -26,10 +26,10 @@ public class SecurityConfig implements UserDetailsService {
 
     if (user != null) {
       return new CustomUserDetails(
-        user.getId(),
-        user.getEmail(),
-        user.getPassword(),
-        user.getRole()
+          user.getId(),
+          user.getEmail(),
+          user.getPassword(),
+          user.getRole()
       );
     }
 
@@ -43,32 +43,39 @@ public class SecurityConfig implements UserDetailsService {
 
   @Bean
   public JwtAuthenticationFilter jwtAuthenticationFilter(
-    JwtUtils jwtUtils,
-    UserDetailsService userDetailsService
+      JwtUtils jwtUtils,
+      UserDetailsService userDetailsService
   ) {
     return new JwtAuthenticationFilter(jwtUtils, userDetailsService);
   }
 
   @Bean
   public SecurityFilterChain filterChain(
-    HttpSecurity http,
-    JwtAuthenticationFilter jwtAuthenticationFilter
+      HttpSecurity http,
+      JwtAuthenticationFilter jwtAuthenticationFilter
   ) throws Exception {
     http
-      .csrf(csrf -> csrf.disable())
-      .authorizeHttpRequests(auth -> auth
-        .requestMatchers(
-          "/auth/**",
-          "/figures",
-          "/figures/**"
-        ).permitAll()
-        .requestMatchers("/admin/**").hasRole("ADMIN")
-          .anyRequest().authenticated()
-      )
-      .addFilterBefore(
-        jwtAuthenticationFilter,
-        UsernamePasswordAuthenticationFilter.class
-      );
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                "/auth/**",
+                "/figure",
+                "/figure/**"
+            ).permitAll()
+
+            .requestMatchers("/admin/**")
+            .hasRole("ADMIN")
+
+            .requestMatchers("/user", "/user/**")
+            .authenticated()
+
+            .anyRequest()
+            .authenticated()
+        )
+        .addFilterBefore(
+            jwtAuthenticationFilter,
+            UsernamePasswordAuthenticationFilter.class
+        );
 
     return http.build();
   }

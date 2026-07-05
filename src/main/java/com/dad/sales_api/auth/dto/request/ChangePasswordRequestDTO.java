@@ -1,6 +1,7 @@
 package com.dad.sales_api.auth.dto.request;
 
 import com.dad.sales_api.shared.SalesConstants;
+import com.dad.sales_api.shared.helpers.RegexPatterns;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ public record ChangePasswordRequestDTO(
         + SalesConstants.MAX_PASSWORD_LENGTH + " caracteres."
     )
     @Pattern(
-        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
+        regexp = RegexPatterns.PASSWORD,
         message = "A senha deve conter pelo menos uma letra minúscula, uma maiúscula e um número"
     )
     String newPassword,

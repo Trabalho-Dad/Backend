@@ -24,7 +24,11 @@ public class SalesConstants {
   // Cpf's length:
   public final static int CPF_LENGTH=11;
 
-  // Contact's value:
+  // Contact's value length:
   public final static int MAX_CONTACT_VALUE_LENGTH=255;
   public final static int MIN_CONTACT_VALUE_LENGTH=3;
+
+  // Description's length:
+  public final static int MAX_DESCRIPTION_LENGTH=2000;
+  public final static int MIN_DESCRIPTION_LENGTH=15;
 }

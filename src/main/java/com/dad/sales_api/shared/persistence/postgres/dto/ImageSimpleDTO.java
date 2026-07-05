@@ -1,4 +1,4 @@
-package com.dad.sales_api.shared.dto;
+package com.dad.sales_api.shared.persistence.postgres.dto;
 
 import com.dad.sales_api.shared.enums.ImageTypeEnum;
 

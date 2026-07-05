@@ -1,6 +1,6 @@
 package com.dad.sales_api.shared.mappers;
 
-import com.dad.sales_api.shared.dto.FigureSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.FigureSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 
 public class FigureMapper {
@@ -12,7 +12,9 @@ public class FigureMapper {
       entity.getPrice(),
       entity.getQuantity(),
       entity.getActive(),
-      entity.getImages().stream().map(ImageMapper::convertEntityToSimpleDTO).toList()
+      entity.getIsLaunch(),
+      entity.getImages().stream()
+          .map(ImageMapper::convertEntityToSimpleDTO).toList()
     );
   }
 }

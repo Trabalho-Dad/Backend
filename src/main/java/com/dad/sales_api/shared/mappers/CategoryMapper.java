@@ -1,6 +1,6 @@
 package com.dad.sales_api.shared.mappers;
 
-import com.dad.sales_api.shared.dto.CategorySimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.CategorySimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.CategoryEntity;
 
 public class CategoryMapper {

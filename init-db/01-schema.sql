@@ -76,6 +76,7 @@ CREATE TABLE figure (
     description TEXT,
     price       NUMERIC(10,2) NOT NULL,
     quantity    INT DEFAULT 0,
+    is_launch   BOOLEAN DEFAULT TRUE,
     active      BOOLEAN DEFAULT TRUE,
     id_character INT NOT NULL REFERENCES character(id)
 );
@@ -125,6 +126,20 @@ CREATE TABLE figure_category(
     id_figure   INT NOT NULL REFERENCES figure(id),
     id_category INT NOT NULL REFERENCES category(id),
     PRIMARY KEY (id_figure, id_category)
+);
+
+-- ------------------------------------------------------------
+-- feedback
+-- ------------------------------------------------------------
+
+CREATE TABLE feedback (
+    id SERIAL PRIMARY KEY,
+    rating INTEGER NOT NULL CHECK (rating >= 0 AND rating <= 5),
+    description VARCHAR(255),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    id_figure INTEGER REFERENCES figure(id),
+    id_user INTEGER REFERENCES users(id)
 );
 
 -- ------------------------------------------------------------
