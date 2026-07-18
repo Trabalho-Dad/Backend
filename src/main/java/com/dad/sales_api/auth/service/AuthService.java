@@ -1,6 +1,7 @@
 package com.dad.sales_api.auth.service;
 
 import com.dad.sales_api.auth.dto.input.*;
+import com.dad.sales_api.auth.dto.output.SendCodeOutputDTO;
 import com.dad.sales_api.auth.dto.output.ValidateCodeOutputDTO;
 import com.dad.sales_api.shared.enums.RoleEnum;
 import com.dad.sales_api.shared.exceptions.BadRequestException;
@@ -52,7 +53,7 @@ public class AuthService {
     CustomUserDetails user =
         (CustomUserDetails) userDetails;
 
-    if (!passwordEncoder.matches(senha, userDetails.getPassword())) throw new UnauthorizedException("Usuário e/ou senha inválidos.");
+    if (!passwordEncoder.matches(senha, userDetails.getPassword())) throw new UnauthorizedException("{exception.login.unhautorized}");
 
     String token = jwtUtils.generateToken(
       user.getUsername(),
@@ -62,23 +63,22 @@ public class AuthService {
 
     return new LoginOutputDTO(
       token,
-      HttpStatus.OK.value(),
-      "Login realizado com sucesso!"
+      "{login.realized}"
     );
   }
 
   public RegisterOutputDTO register(RegisterInputDTO input) {
-    if (!cpfValidatorService.validateCpf(input.cpf()).valid()) throw new BadRequestException("CPF não existe.");
+    if (!cpfValidatorService.validateCpf(input.cpf()).valid()) throw new BadRequestException("{validation.cpf.exists}");
 
     UserEntity emailExists =
         userRepository.findByEmail(input.email());
 
-    if (emailExists != null) throw new BadRequestException("Não é possível criar uma conta com esse e-mail.");
+    if (emailExists != null) throw new BadRequestException("{validation.email.invalid}");
 
     UserEntity cpfExists =
         userRepository.findByCpf(input.cpf());
 
-    if (cpfExists != null) throw new BadRequestException("Não é possível criar uma conta com esse CPF.");
+    if (cpfExists != null) throw new BadRequestException("{validation.cpf.invalid}");
 
     UserEntity user = new UserEntity();
 
@@ -101,7 +101,7 @@ public class AuthService {
     );
   }
 
-  public void sendCode(
+  public SendCodeOutputDTO sendCode(
       SendCodeInputDTO input
   ) throws MessagingException {
     String email = input.email();
@@ -114,7 +114,7 @@ public class AuthService {
         PasswordResetCode passwordResetCode = new PasswordResetCode(
             email,
             user.getRole(),
-            code,
+            String.valueOf(code),
             LocalDateTime.now().plusMinutes(15)
         );
 
@@ -133,12 +133,16 @@ public class AuthService {
         );
       }
     }
+
+    return new SendCodeOutputDTO(
+        input.email()
+    );
   }
 
   public ValidateCodeOutputDTO validateCode(ValidateCodeInputDTO input){
     PasswordResetCode passwordResetCode = passwordResetCodeRepository.findByEmailAndUsed(input.email(), Boolean.FALSE);
 
-    if (passwordResetCode == null) throw new UnauthorizedException("Código inválido");
+    if (passwordResetCode == null) throw new UnauthorizedException("{validation.change-password.code.incorrect}");
 
     if (passwordResetCode.getCode().equals(input.code())) {
       passwordResetCode.setUsed(true);
@@ -149,7 +153,7 @@ public class AuthService {
           input.code(),
           true
       );
-    } else throw new UnauthorizedException("Código inválido");
+    } else throw new UnauthorizedException("{validation.change-password.code.incorrect}");
   }
 
   public void changePassword(
@@ -157,9 +161,9 @@ public class AuthService {
   ){
     PasswordResetCode passwordResetCode = passwordResetCodeRepository.findByEmailAndUsed(input.email(), Boolean.TRUE);
 
-    if (!passwordResetCode.getCode().equals(input.code())) throw new UnauthorizedException("Código inválido.");
+    if (!passwordResetCode.getCode().equals(input.code())) throw new UnauthorizedException("{validation.change-password.code.incorrect}");
 
-    if (!input.newPassword().equals(input.confirmPassword())) throw new BadRequestException("As senhas informadas devem ser iguais.");
+    if (!input.newPassword().equals(input.confirmPassword())) throw new BadRequestException("{validation.change-password.incorrect}");
 
     UserEntity user = userRepository.findByEmail(input.email());
 

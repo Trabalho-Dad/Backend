@@ -26,7 +26,7 @@ INSERT INTO users (name, cpf, email, password, role)
 VALUES
 ('João Silva', '12345678910','joao@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 1),
 ('Maria Souza', '12345678901', 'maria@email.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 1),
-('Astra Admin', '54161707860', 'admin@system.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 0;
+('Astra Admin', '54161707860', 'admin@system.com', '{bcrypt}$2b$08$y5Ao2yBAFrsL/pkQdQ.ShO9NBJVIn9uRdDmLTdVU.qasNNwz1xbSu', 0);
 
 -- ------------------------------------------------------------
 -- Contacts
@@ -93,11 +93,12 @@ INSERT INTO figure (
     description,
     price,
     quantity,
-    id_character
+    id_character,
+    is_launch
 )
 VALUES
-('Naruto Figure','Figura do Naruto',199.90,10,1),
-('Goku Figure','Figura do Goku',249.90,5,2);
+('Naruto Figure','Figura do Naruto',199.90,10,1, true),
+('Goku Figure','Figura do Goku',249.90,5,2, false);
 
 -- ------------------------------------------------------------
 -- Images
@@ -111,17 +112,17 @@ INSERT INTO image (
     id_figure
 )
 VALUES
-    ('Naruto personagem','https://img.com/character_naruto.png',2,1,NULL),
-    ('Goku personagem','https://img.com/character_goku.png',2,2,NULL),
+    ('Naruto personagem','https://img.com/character_naruto.png',3,1,NULL),
+    ('Goku personagem','https://img.com/character_goku.png',3,2,NULL),
 
     ('Naruto principal','https://img.com/naruto1.png',0,NULL,1),
-    ('Naruto costas','https://img.com/naruto2.png',1,NULL,1),
+    ('Naruto costas','https://img.com/naruto2.png',2,NULL,1),
 
     ('Goku principal','https://img.com/goku1.png',0,NULL,2),
-    ('Goku costas','https://img.com/goku2.png',1,NULL,2),
+    ('Goku costas','https://img.com/goku2.png',2,NULL,2),
 
-    ('Katana','https://img.com/katana.png',3,NULL,NULL),
-    ('Capa legal','https://img.com/capa.png',3,NULL,NULL);
+    ('Katana','https://img.com/katana.png',4,NULL,NULL),
+    ('Capa legal','https://img.com/capa.png',4,NULL,NULL);
 
 -- ------------------------------------------------------------
 -- Accessories
@@ -192,7 +193,7 @@ INSERT INTO user_order (
     id_user
 )
 VALUES
-(249.90,224.91,24.99,'PAID',1,1);
+(249.90,224.91,24.99,4,1,1);
 
 INSERT INTO user_order_coupons (
     id_user_order,

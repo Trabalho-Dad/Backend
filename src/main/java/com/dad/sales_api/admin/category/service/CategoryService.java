@@ -21,7 +21,7 @@ import com.dad.sales_api.shared.mappers.FigureMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service("adminCategoryService")
 @RequiredArgsConstructor
 public class CategoryService {
   private final CategoryRepository categoryRepository;

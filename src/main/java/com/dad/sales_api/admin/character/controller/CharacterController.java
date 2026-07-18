@@ -30,80 +30,82 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
-@RequestMapping("/admin/character")
+@RequestMapping("/api/admin/characters")
 @RequiredArgsConstructor
 public class CharacterController {
   private final CharacterService characterService;
 
   @GetMapping("")
   public ResponseEntity<FindManyCharacterOutputDTO> findMany(
-    @ModelAttribute
-    FindManyCharactersQueryParamsDTO query
+      @ModelAttribute
+      FindManyCharactersQueryParamsDTO query
   ) {
-    return ResponseEntity.ok(
-      this.characterService.findMany(
-        new FindManyCharactersInputDTO(query)
-      )
+    return new ResponseEntity(
+        this.characterService.findMany(
+            new FindManyCharactersInputDTO(query)
+        ),
+        HttpStatus.OK
     );
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<FindCharacterByIdOutputDTO> findById(
-    @PathVariable 
-    @Valid
-    @Min(1)
-    Integer id
+      @PathVariable
+      @Valid
+      @Min(value = 1, message = "O id não pode ser menor ou igual a 0")
+      Integer id
   ) {
-    return ResponseEntity.ok(
-      characterService.findById(id)
+    return new ResponseEntity(
+        characterService.findById(id),
+        HttpStatus.OK
     );
   }
-  
+
   @PutMapping("/{id}")
   public ResponseEntity<UpdateCharacterOutputDTO> update(
-    @PathVariable 
-    @Valid
-    @Min(1)
-    Integer id,
+      @PathVariable
+      @Valid
+      @Min(value = 1, message = "O id não pode ser menor ou igual a 0")
+      Integer id,
 
-    @RequestBody
-    @Valid
-    UpdateCharacterRequestDTO input
+      @RequestBody
+      @Valid
+      UpdateCharacterRequestDTO input
   ) {
-    return ResponseEntity.ok(
-      characterService.update(
-        new UpdateCharacterInputDTO(id, input)
-      )
+    return new ResponseEntity(
+        characterService.update(
+            new UpdateCharacterInputDTO(id, input)
+        ),
+        HttpStatus.OK
     );
   }
 
   @PostMapping("")
   public ResponseEntity<CreateCharacterOutputDTO> createCharacter(
-    @RequestBody 
-    @Valid
-    CreateCharacterRequestDTO input
-  ) { 
-    return ResponseEntity.status(HttpStatus.CREATED).body(
-      this.characterService.create(
-        new CreateCharacterInputDTO(
-          input.name(),
-          input.description(),
-          input.active(),
-          input.imageIds()
-        )
-      )
+      @RequestBody
+      @Valid
+      CreateCharacterRequestDTO input
+  ) {
+    return new ResponseEntity(
+        this.characterService.create(
+            new CreateCharacterInputDTO(
+                input
+            )
+        ),
+        HttpStatus.CREATED
     );
   }
-  
+
   @PatchMapping("/{id}")
   public ResponseEntity<UpdateCharacterOutputDTO> update(
-    @PathVariable
-    @Valid
-    @Min(1)
-    Integer id
-  ){
-    return ResponseEntity.ok(
-      this.characterService.updateStatus(id)
+      @PathVariable
+      @Valid
+      @Min(1)
+      Integer id
+  ) {
+    return new ResponseEntity(
+        this.characterService.updateStatus(id),
+        HttpStatus.OK
     );
   }
 }

@@ -1,5 +1,6 @@
-package com.dad.sales_api.shared.dto;
+package com.dad.sales_api.shared.persistence.postgres.dto;
 
+import com.dad.sales_api.shared.helpers.NormalizeOutput;
 import com.dad.sales_api.shared.persistence.postgres.entities.CharacterEntity;
 
 public record CharacterSimpleDTO(
@@ -11,7 +12,7 @@ public record CharacterSimpleDTO(
   public CharacterSimpleDTO(CharacterEntity entity){
     this(
       entity.getId(),
-      entity.getName(),
+      NormalizeOutput.name(entity.getName()),
       entity.getDescription(),
       entity.getActive()
     );

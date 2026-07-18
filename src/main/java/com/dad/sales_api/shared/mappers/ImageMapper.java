@@ -1,6 +1,6 @@
 package com.dad.sales_api.shared.mappers;
 
-import com.dad.sales_api.shared.dto.ImageSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.ImageSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.ImageEntity;
 
 public class ImageMapper {

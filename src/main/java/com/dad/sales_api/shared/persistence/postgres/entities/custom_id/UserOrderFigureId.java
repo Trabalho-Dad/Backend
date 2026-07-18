@@ -12,7 +12,9 @@ import lombok.*;
 @EqualsAndHashCode
 public class UserOrderFigureId implements Serializable {
 
+    @Column(name = "id_user_order")
     private Integer idUserOrder;
 
+    @Column(name = "id_figure")
     private Integer idFigure;
 }

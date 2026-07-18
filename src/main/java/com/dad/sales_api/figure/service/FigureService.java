@@ -3,6 +3,7 @@ package com.dad.sales_api.figure.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.dad.sales_api.shared.enums.ImageTypeEnum;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.dad.sales_api.figure.dto.input.FindManyFiguresInputDTO;
 import com.dad.sales_api.figure.dto.output.FindFigureByIdOutputDTO;
 import com.dad.sales_api.figure.dto.output.FindManyFiguresOutputDTO;
-import com.dad.sales_api.shared.dto.FigureSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.FigureSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 import com.dad.sales_api.shared.exceptions.NotFoundException;
 import com.dad.sales_api.shared.persistence.postgres.repositories.FigureRepository;
@@ -29,10 +30,12 @@ import lombok.RequiredArgsConstructor;
 public class FigureService {
   private final FigureRepository figureRepository;
 
+  @Transactional
   public FindManyFiguresOutputDTO findMany(FindManyFiguresInputDTO input){
     Specification<FigureEntity> spec = Specification
       .where(FigureSpecification.withName(input.name()))
-      .and(FigureSpecification.withStatus(input.active()));
+      .and(FigureSpecification.withStatus(input.active()))
+      .and(FigureSpecification.withCategory(input.categoryId()));
 
     int count = (int) figureRepository.count(spec);
 
@@ -52,6 +55,18 @@ public class FigureService {
 
     List<FigureSimpleDTO> output = figures.stream()
       .map(FigureMapper::convertEntityToSimpleDTO)
+      .map(f -> new FigureSimpleDTO(
+        f.id(),
+        f.name(),
+        f.description(),
+        f.price(),
+        f.quantity(),
+        f.active(),
+        f.isLaunch(),
+        f.images().stream()
+          .filter(image -> image.imageType() == ImageTypeEnum.PRIMARY_FIGURE)
+          .toList()
+      ))
       .toList();
 
     return new FindManyFiguresOutputDTO(output, totalPages, count);
@@ -72,6 +87,7 @@ public class FigureService {
       entity.getPrice(),
       entity.getQuantity(),
       entity.getActive(),
+      entity.getIsLaunch(),
       CharacterMapper.convertToSimpleDTO(entity.getCharacter()),
       entity.getAccessories()
         .stream()

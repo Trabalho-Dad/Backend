@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController("adminFigureController")
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/admin/figure")
+@RequestMapping("/api/admin/figures")
 public class FigureController {
   private final FigureService service;
 

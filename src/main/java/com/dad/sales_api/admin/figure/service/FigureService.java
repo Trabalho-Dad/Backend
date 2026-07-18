@@ -11,7 +11,7 @@ import com.dad.sales_api.admin.figure.dto.output.CreateFigureOutputDTO;
 import com.dad.sales_api.admin.figure.dto.output.FindFigureByIdOutputDTO;
 import com.dad.sales_api.admin.figure.dto.output.FindManyFiguresOutputDTO;
 import com.dad.sales_api.admin.figure.dto.output.IncreaseOrDecreaseQuantityOutputDTO;
-import com.dad.sales_api.shared.dto.FigureSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.FigureSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.AccessoryEntity;
 import com.dad.sales_api.shared.persistence.postgres.entities.CategoryEntity;
 import com.dad.sales_api.shared.persistence.postgres.entities.CharacterEntity;
@@ -84,6 +84,7 @@ public class FigureService {
       figure.getPrice(),
       figure.getQuantity(),
       figure.getActive(),
+      figure.getIsLaunch(),
       CharacterMapper.convertToSimpleDTO(figure.getCharacter()),
       figure.getAccessories()
         .stream()
@@ -125,6 +126,7 @@ public class FigureService {
       input.price(),
       input.quantity(),
       character.getActive() ? input.active() : Boolean.FALSE,
+      Boolean.TRUE,
       character,
       accessories,
       categories,

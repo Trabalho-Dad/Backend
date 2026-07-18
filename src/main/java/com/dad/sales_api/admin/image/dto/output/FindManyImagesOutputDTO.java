@@ -1,6 +1,6 @@
 package com.dad.sales_api.admin.image.dto.output;
 
-import com.dad.sales_api.shared.dto.ImageSimpleDTO;
+import com.dad.sales_api.shared.persistence.postgres.dto.ImageSimpleDTO;
 
 import java.util.List;
 

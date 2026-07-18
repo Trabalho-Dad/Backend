@@ -1,6 +1,7 @@
 package com.dad.sales_api.auth.dto.input;
 
 import com.dad.sales_api.auth.dto.request.RegisterRequestDTO;
+import com.dad.sales_api.shared.helpers.NormalizeInput;
 
 public record RegisterInputDTO(
     String name,
@@ -11,10 +12,10 @@ public record RegisterInputDTO(
 
     public RegisterInputDTO(RegisterRequestDTO input) {
         this(
-            input.name(),
-            input.email(),
-            input.password(),
-            input.cpf()
+            NormalizeInput.name(input.name()),
+            NormalizeInput.email(input.email()),
+            NormalizeInput.password(input.password()),
+            NormalizeInput.cpf(input.cpf())
         );
     }
 }
