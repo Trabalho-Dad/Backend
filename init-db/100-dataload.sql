@@ -193,7 +193,7 @@ INSERT INTO user_order (
     id_user
 )
 VALUES
-(249.90,224.91,24.99,'PAID',1,1);
+(249.90,224.91,24.99,4,1,1);
 
 INSERT INTO user_order_coupons (
     id_user_order,

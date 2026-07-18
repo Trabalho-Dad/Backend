@@ -5,6 +5,9 @@ email:
 server:
   port: ${SALES_API_PORT}
 
+cors:
+  originPatterns: http://127.0.0.1:5500, http://localhost:3000
+
 spring:
   config:
     import: optional:file:.env[.properties]

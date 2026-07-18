@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
-@RequestMapping("/admin/character")
+@RequestMapping("/api/admin/characters")
 @RequiredArgsConstructor
 public class CharacterController {
   private final CharacterService characterService;

@@ -165,22 +165,23 @@ CREATE TABLE coupon (
 CREATE TABLE user_order (
     id                 SERIAL PRIMARY KEY,
     price              NUMERIC(10,2),
-    final_price        NUMERIC(10,2),
+    final_price        NUMERIC(10,2) NOT NULL,
     discount           NUMERIC(10,2),
-    status             VARCHAR(50),
+    status             INT,
     installments_count INT,
     created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
-    id_user        INT NOT NULL REFERENCES users(id)
+    id_user            INT NOT NULL REFERENCES users(id),
+    id_address         INT REFERENCES address(id)
 );
 
 CREATE TABLE user_order_coupons (
-    id_user_order INT NOT NULL REFERENCES user_order(id),
+    id_user_order     INT NOT NULL REFERENCES user_order(id),
     id_coupon         INT NOT NULL REFERENCES coupon(id),
     PRIMARY KEY (id_user_order, id_coupon)
 );
 
 CREATE TABLE user_order_figure (
-    id_user_order INT NOT NULL REFERENCES user_order(id),
+    id_user_order     INT NOT NULL REFERENCES user_order(id),
     id_figure         INT NOT NULL REFERENCES figure(id),
     quantity          INT NOT NULL DEFAULT 1,
     price             NUMERIC(10,2),

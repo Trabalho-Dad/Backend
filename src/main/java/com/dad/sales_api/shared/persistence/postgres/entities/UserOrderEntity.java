@@ -4,15 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.dad.sales_api.shared.enums.OrderStatusEnum;
+import com.dad.sales_api.shared.enums.RoleEnum;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +32,9 @@ public class UserOrderEntity {
   @Column(precision = 10, scale = 2)
   private BigDecimal discount;
 
-  @Column(length = 50)
-  private String status;
+  @Enumerated(EnumType.ORDINAL)
+  @Column(nullable = false)
+  private OrderStatusEnum status;
 
   @Column(name = "installments_count")
   private Integer installmentsCount;
@@ -56,4 +51,9 @@ public class UserOrderEntity {
 
   @OneToMany(mappedBy = "userOrder")
   private List<PaymentEntity> payments;
+
+  public UserOrderEntity(OrderStatusEnum status, UserEntity user) {
+    this.status = status;
+    this.user = user;
+  }
 }

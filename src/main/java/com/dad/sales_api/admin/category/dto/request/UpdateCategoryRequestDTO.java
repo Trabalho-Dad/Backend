@@ -7,18 +7,16 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
 
 public record UpdateCategoryRequestDTO(
-  @NotBlank
-  @Size(
-      min = SalesConstants.MIN_NAME_LENGTH,
-      max = SalesConstants.MAX_NAME_LENGTH,
-      message = "O nome da categoria deve ter entre " +
-          SalesConstants.MIN_NAME_LENGTH + " e " +
-          SalesConstants.MAX_NAME_LENGTH + " caracteres."
-  )
-  @Pattern(
-      regexp = RegexPatterns.NAME,
-      message = "O nome deve conter apenas letras e acentos."
-  )
+    @NotBlank(message = "{validation.name.required}")
+    @Size(
+        min = SalesConstants.MIN_NAME_LENGTH,
+        max = SalesConstants.MAX_NAME_LENGTH,
+        message = "{validation.name.size}"
+    )
+    @Pattern(
+        regexp = RegexPatterns.NAME,
+        message = "{validation.name.regex}"
+    )
   String name,
   String description,
   Boolean active

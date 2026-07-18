@@ -9,43 +9,42 @@ import com.dad.sales_api.shared.helpers.RegexPatterns;
 import jakarta.validation.constraints.*;
 
 public record CreateFigureRequestDTO(
-  @NotBlank(message = "O nome é obrigatório")
+  @NotBlank(message = "{validation.name.required}")
   @Size(
       min = SalesConstants.MIN_NAME_LENGTH,
       max = SalesConstants.MAX_NAME_LENGTH,
-      message = "O nome do boneco deve ter entre " +
-          SalesConstants.MIN_NAME_LENGTH + " e " +
-          SalesConstants.MAX_NAME_LENGTH + " caracteres"
+      message = "{validation.name.size}"
   )
   @Pattern(
       regexp = RegexPatterns.NAME,
-      message = "O nome deve conter apenas letras acentuadas ou não."
+      message = "{validation.name.regex}"
   )
   String name,
   
   String description,
 
-  @DecimalMin(value = "0.01", message = "O preço deve ser maior que zero.")
+  @NotNull(message = "{validation.price.required}")
+  @DecimalMin(value = "0.01", message = "{validation.price.min-value}")
   BigDecimal price,
 
-  @NotNull(message = "A quantidade é obrigatória.")
-  @PositiveOrZero(message = "A quantidade não pode ser negativa.")
+  @NotNull(message = "{validation.quantity.required}")
+  @PositiveOrZero(message = "{validation.quantity.min-value}")
   Integer quantity,
 
   Boolean active,
 
-  @NotNull(message = "O id personagem é obrigatório.")
-  @Positive(message = "O id do personagem deve ser maior que zero.")
+  @NotNull(message = "{validation.character-id.required}")
+  @Positive(message = "{validation.character-id.min-value}")
   Integer characterId,
 
-  @NotEmpty(message = "É necessário informar ao menos um acessório.")
-  List<@Positive(message = "Os ids dos acessórios devem ser maiores que zero.") Integer> accessoryIds,
+  @NotEmpty(message = "{validation.list.accessories.required}")
+  List<@Positive(message = "{validation.list.accessories.min-value}") Integer> accessoryIds,
 
-  @NotEmpty(message = "É necessário informar ao menos uma categoria.")
-  List<@Positive(message = "Os ids das categorias devem ser maiores que zero.") Integer> categoryIds,
+  @NotEmpty(message = "{validation.list.categories.required}")
+  List<@Positive(message = "{validation.list.categories.min-value}") Integer> categoryIds,
 
-  @NotEmpty(message = "É necessário informar ao menos uma imagem.")
-  List<@Positive(message = "Os ids das imagens devem ser maiores que zero.") Integer> imageIds
+  @NotEmpty(message = "{validation.list.images.required}")
+  List<@Positive(message = "{validation.list.images.min-value}") Integer> imageIds
 ) {
   public CreateFigureRequestDTO(String name, String description, BigDecimal price, Integer quantity, Boolean active, Integer characterId, List<Integer> accessoryIds, List<Integer> categoryIds, List<Integer> imageIds){
     this.name = name;

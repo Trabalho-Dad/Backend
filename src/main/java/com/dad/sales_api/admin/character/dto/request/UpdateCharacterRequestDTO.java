@@ -8,17 +8,15 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UpdateCharacterRequestDTO(
-    @NotBlank
+    @NotBlank(message = "{validation.name.required}")
     @Size(
         min = SalesConstants.MIN_NAME_LENGTH,
         max = SalesConstants.MAX_NAME_LENGTH,
-        message = "O nome do personagem deve ter entre " +
-            SalesConstants.MIN_NAME_LENGTH + " e " +
-            SalesConstants.MAX_NAME_LENGTH + " caracteres"
+        message = "{validation.name.size}"
     )
     @Pattern(
         regexp = RegexPatterns.NAME,
-        message = "O nome deve conter apenas letras acentuadas ou não."
+        message = "{validation.name.regex}"
     )
     String name,
     String description,

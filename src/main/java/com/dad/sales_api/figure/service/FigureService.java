@@ -34,7 +34,8 @@ public class FigureService {
   public FindManyFiguresOutputDTO findMany(FindManyFiguresInputDTO input){
     Specification<FigureEntity> spec = Specification
       .where(FigureSpecification.withName(input.name()))
-      .and(FigureSpecification.withStatus(input.active()));
+      .and(FigureSpecification.withStatus(input.active()))
+      .and(FigureSpecification.withCategory(input.categoryId()));
 
     int count = (int) figureRepository.count(spec);
 

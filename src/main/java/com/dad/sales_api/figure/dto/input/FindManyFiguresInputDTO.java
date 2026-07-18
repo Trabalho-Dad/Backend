@@ -6,6 +6,7 @@ import com.dad.sales_api.shared.helpers.NormalizeInput;
 public record FindManyFiguresInputDTO(
   String name,
   Boolean active,
+  Integer categoryId,
   Integer page,
   Integer take
 ) {
@@ -13,6 +14,7 @@ public record FindManyFiguresInputDTO(
     this(
       NormalizeInput.name(query.name()),
       query.active(),
+      query.categoryId(),
       query.page(),
       query.take()
     );

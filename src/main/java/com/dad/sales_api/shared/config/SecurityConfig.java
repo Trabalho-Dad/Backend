@@ -19,6 +19,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 @RequiredArgsConstructor
 public class SecurityConfig implements UserDetailsService {
   private final UserRepository customerRepository;
+  public static final String SECURITY = "BearerAuth";
 
   @Override
   public UserDetails loadUserByUsername(String email) {
@@ -58,15 +59,20 @@ public class SecurityConfig implements UserDetailsService {
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
-                "/auth/**",
-                "/figure",
-                "/figure/**"
+                "/api/auth/**",
+                "/api/figure",
+                "/api/figure/**",
+                "/api/category",
+                "/api/category/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/v3/api-docs/**"
             ).permitAll()
 
-            .requestMatchers("/admin/**")
+            .requestMatchers("/api/admin/**")
             .hasRole("ADMIN")
 
-            .requestMatchers("/user", "/user/**")
+            .requestMatchers("/api/user", "/api/user/**")
             .authenticated()
 
             .anyRequest()

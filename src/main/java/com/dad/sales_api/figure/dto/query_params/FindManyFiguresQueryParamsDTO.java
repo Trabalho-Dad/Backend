@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 public record FindManyFiguresQueryParamsDTO(
   String name,
   Boolean active,
+  Integer categoryId,
   @Min(1)
   Integer page,
   @Min(1)

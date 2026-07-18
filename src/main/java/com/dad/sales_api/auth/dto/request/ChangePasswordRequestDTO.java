@@ -7,16 +7,18 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record ChangePasswordRequestDTO(
-    @NotBlank
-    @Size(min = SalesConstants.MIN_PASSWORD_LENGTH, max = SalesConstants.MAX_PASSWORD_LENGTH, message = "A senha deve ter entre "
-        + SalesConstants.MIN_PASSWORD_LENGTH + " e "
-        + SalesConstants.MAX_PASSWORD_LENGTH + " caracteres."
+    @NotBlank(message = "{validation.password.required}")
+    @Size(
+        min = SalesConstants.MIN_PASSWORD_LENGTH,
+        max = SalesConstants.MAX_PASSWORD_LENGTH,
+        message = "{validation.password.size}"
     )
     @Pattern(
         regexp = RegexPatterns.PASSWORD,
-        message = "A senha deve conter pelo menos uma letra minúscula, uma maiúscula e um número"
+        message = "{validation.password.regex}"
     )
     String newPassword,
+    @NotBlank(message = "{validation.change-password.required}")
     String confirmPassword
 ) {
 }

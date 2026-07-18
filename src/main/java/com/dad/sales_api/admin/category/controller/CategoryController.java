@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
-@RestController
-@RequestMapping("/admin/category")
+@RestController("adminCategoryController")
+@RequestMapping("/api/admin/categories")
 @RequiredArgsConstructor
 public class CategoryController {
   private final CategoryService categoryService;
@@ -87,7 +87,7 @@ public class CategoryController {
     );
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/{id}/status")
   public ResponseEntity<UpdateCategoryOutputDTO> updateStatus(
     @PathVariable 
     Integer id

@@ -8,15 +8,20 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record LoginRequestDTO(
-  @NotBlank
-  @Email
+  @NotBlank(message = "{validation.email.required}")
+  @Email(message = "{validation.email.regex}")
+  @Size(
+      min = SalesConstants.MIN_EMAIL_LENGTH,
+      max = SalesConstants.MAX_EMAIL_LENGTH,
+      message = "{login.invalid}"
+  )
   String email,
 
-  @NotBlank
-  @Size(min = SalesConstants.MIN_PASSWORD_LENGTH, max = SalesConstants.MAX_PASSWORD_LENGTH, message = "Usuário e/ou senha inválidos.")
-  @Pattern(
-      regexp = RegexPatterns.PASSWORD,
-      message = "Usuário e/ou senha inválidos."
+  @NotBlank(message = "{validation.password.required}")
+  @Size(
+      min = SalesConstants.MIN_PASSWORD_LENGTH,
+      max = SalesConstants.MAX_PASSWORD_LENGTH,
+      message = "{exception.login.unhautorized}"
   )
   String password
 ) {

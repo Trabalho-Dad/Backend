@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 public record FindManyCharactersQueryParamsDTO(
     @Pattern(
         regexp = RegexPatterns.NAME,
-        message = "O nome deve conter apenas letras acentuadas ou não."
+        message = "{validation.name.regex}"
     )
     String name,
     Boolean active,

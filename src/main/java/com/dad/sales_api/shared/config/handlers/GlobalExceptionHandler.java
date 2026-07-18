@@ -95,12 +95,12 @@ public class GlobalExceptionHandler {
     List<String> errors = ex.getBindingResult()
         .getFieldErrors()
         .stream()
-        .map(f -> "Campo '" + f.getField() + "': " + f.getDefaultMessage())
+        .map(f -> f.getDefaultMessage())
         .toList();
  
     return new ResponseEntity(
         new ExceptionOutputDTO(
-            String.join(", ", errors),
+            String.join("\n ", errors),
             Instant.now().toString(),
             HttpStatus.BAD_REQUEST.value(),
             HttpStatus.BAD_REQUEST.getReasonPhrase()

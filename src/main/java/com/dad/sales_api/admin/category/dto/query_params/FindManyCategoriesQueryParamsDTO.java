@@ -1,14 +1,17 @@
 package com.dad.sales_api.admin.category.dto.query_params;
 
+import com.dad.sales_api.shared.SalesConstants;
 import com.dad.sales_api.shared.helpers.NormalizeInput;
 import com.dad.sales_api.shared.helpers.RegexPatterns;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record FindManyCategoriesQueryParamsDTO(
     @Pattern(
         regexp = RegexPatterns.NAME,
-        message = "O nome deve conter apenas letras acentuadas ou não."
+        message = "{validation.name.regex}"
     )
     String name,
     Boolean active,
