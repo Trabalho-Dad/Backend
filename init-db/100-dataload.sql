@@ -1,3 +1,5 @@
+BEGIN;
+
 -- ------------------------------------------------------------
 -- Contact Types
 -- ------------------------------------------------------------
@@ -206,7 +208,7 @@ INSERT INTO payment (
     pay_value,
     pay_date,
     due_date,
-    id_payment_type,
+    payment_type,
     id_user_order
 )
 VALUES
@@ -217,3 +219,5 @@ VALUES
     1,
     1
 );
+
+COMMIT;
