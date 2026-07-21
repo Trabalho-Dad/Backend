@@ -41,7 +41,21 @@ public class NormalizeInput {
     return removeBlank(url);
   }
 
-  private static String removeBlank(String input) {
+  public static String cep(String cep){
+    if (cep == null || cep.isEmpty()) return cep;
+
+    return removeBlank(cep.replaceAll("[^\\d]", ""));
+  }
+
+  public static String addressInfos(String info){
+    if (info == null || info.isBlank()) return info;
+
+    return removeBlank(info.toLowerCase());
+  }
+
+  public static String removeBlank(String input) {
+    if (input == null || input.isBlank()) return input;
+
     return input.trim();
   }
 }

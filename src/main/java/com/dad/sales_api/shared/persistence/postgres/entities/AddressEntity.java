@@ -1,5 +1,6 @@
 package com.dad.sales_api.shared.persistence.postgres.entities;
 
+import com.dad.sales_api.shared.SalesConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,28 +26,25 @@ public class AddressEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column()
+  @Column(length = SalesConstants.MAX_COMPLEMENT_LENGTH)
   private String complement;
 
-  @Column(length = 10)
+  @Column(length = SalesConstants.CEP_LENGTH)
   private String cep;
 
-  @Column(length = 100)
-  private String country;
-
-  @Column(length = 100)
+  @Column(length = SalesConstants.MAX_STATE_LENGTH)
   private String state;
 
-  @Column(length = 100)
+  @Column(length = SalesConstants.MAX_CITY_LENGTH)
   private String city;
 
-  @Column(length = 150)
+  @Column(length = SalesConstants.MAX_NEIGHBORHOOD_LENGTH)
   private String neighborhood;
 
-  @Column(length = 200)
+  @Column(length = SalesConstants.MAX_STREET_LENGTH)
   private String street;
 
-  @Column(length = 20)
+  @Column(length = SalesConstants.MAX_NUMBER_LENGTH)
   private String number;
 
   @ManyToOne

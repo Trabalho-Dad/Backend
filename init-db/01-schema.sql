@@ -7,11 +7,6 @@ CREATE TABLE contact_type (
     type VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE payment_type (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-);
-
 -- ------------------------------------------------------------
 -- users
 -- ------------------------------------------------------------
@@ -45,13 +40,12 @@ CREATE TABLE contact (
 CREATE TABLE address (
     id           SERIAL PRIMARY KEY,
     complement   VARCHAR(255),
-    cep          VARCHAR(10),
-    country      VARCHAR(100),
+    cep          VARCHAR(8),
     state        VARCHAR(100),
     city         VARCHAR(100),
     neighborhood VARCHAR(150),
     street       VARCHAR(200),
-    number       VARCHAR(20),
+    number       VARCHAR(10),
     id_user  INT NOT NULL REFERENCES users(id)
 );
 
@@ -168,7 +162,6 @@ CREATE TABLE user_order (
     final_price        NUMERIC(10,2) NOT NULL,
     discount           NUMERIC(10,2),
     status             INT,
-    installments_count INT,
     created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
     id_user            INT NOT NULL REFERENCES users(id),
     id_address         INT REFERENCES address(id)
@@ -195,10 +188,9 @@ CREATE TABLE user_order_figure (
 CREATE TABLE payment (
     id SERIAL PRIMARY KEY,
     pay_value NUMERIC(10,2) NOT NULL,
-    installment_number INT NOT NULL,
     pay_date DATE,
-    valid_date DATE NOT NULL,
-    id_payment_type INT NOT NULL REFERENCES payment_type(id),
+    due_date DATE NOT NULL,
+    payment_type INT NOT NULL,
     id_user_order INT NOT NULL REFERENCES user_order(id)
 );
 
@@ -214,9 +206,6 @@ ON address(id_user);
 
 CREATE INDEX idx_user_order_id_user
 ON user_order(id_user);
-
-CREATE INDEX idx_payment_id_payment_type
-ON payment(id_payment_type);
 
 CREATE INDEX idx_figure_character
     ON figure(id_character);

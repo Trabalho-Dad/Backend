@@ -13,6 +13,7 @@ public class FigureMapper {
       entity.getQuantity(),
       entity.getActive(),
       entity.getIsLaunch(),
+      entity.getCategories().get(0).getName(),
       entity.getImages().stream()
           .map(ImageMapper::convertEntityToSimpleDTO).toList()
     );

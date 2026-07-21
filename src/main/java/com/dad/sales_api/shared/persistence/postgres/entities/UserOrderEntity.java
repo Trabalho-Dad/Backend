@@ -36,9 +36,6 @@ public class UserOrderEntity {
   @Column(nullable = false)
   private OrderStatusEnum status;
 
-  @Column(name = "installments_count")
-  private Integer installmentsCount;
-
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
@@ -47,7 +44,7 @@ public class UserOrderEntity {
   private UserEntity user;
 
   @OneToMany(mappedBy = "userOrder")
-  private List<UserOrderFigureEntity> items;
+  private List<UserOrderFigureEntity> figures;
 
   @OneToMany(mappedBy = "userOrder")
   private List<PaymentEntity> payments;

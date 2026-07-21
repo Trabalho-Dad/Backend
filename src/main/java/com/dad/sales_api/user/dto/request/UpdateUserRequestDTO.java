@@ -21,5 +21,7 @@ public record UpdateUserRequestDTO (
         + SalesConstants.MIN_EMAIL_LENGTH + " e "
         + SalesConstants.MAX_EMAIL_LENGTH + " caracteres.")
     String email
+
+    
 ){
 }

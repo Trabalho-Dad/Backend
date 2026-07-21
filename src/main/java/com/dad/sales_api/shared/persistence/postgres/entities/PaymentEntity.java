@@ -2,14 +2,9 @@ package com.dad.sales_api.shared.persistence.postgres.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+
+import com.dad.sales_api.shared.enums.PaymentTypeEnum;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,17 +24,15 @@ public class PaymentEntity {
   @Column(name = "pay_value", nullable = false, precision = 10, scale = 2)
   private BigDecimal payValue;
 
-  @Column(nullable = false)
-  private Integer installmentNumber;
-
+  @Column(name = "pay_date")
   private LocalDate payDate;
 
-  @Column(nullable = false)
-  private LocalDate validDate;
+  @Column(name = "due_date",nullable = false)
+  private LocalDate dueDate;
 
-  @ManyToOne
-  @JoinColumn(name = "id_payment_type", nullable = false)
-  private PaymentTypeEntity paymentType;
+  @Enumerated(EnumType.ORDINAL)
+  @Column(name = "payment_type", nullable = false)
+  private PaymentTypeEnum paymentType;
 
   @ManyToOne
   @JoinColumn(name = "id_user_order", nullable = false)

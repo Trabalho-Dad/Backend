@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
     tags = {
         @Tag(name = "Auth", description = "Autenticação de usuários."),
         @Tag(name = "User", description = "Rotas para visualização e edição do usuário logado"),
+        @Tag(name = "Address", description = "Informações sobre os endereços do meu usuário"),
         @Tag(name = "Order", description = "Rotas para CRUD de carrinhos/pedidos"),
         @Tag(name = "Figure", description = "Rotas públicas para visualização dos bonecos"),
         @Tag(name = "Category", description = "Rotas públicas para visualização das categorias")
