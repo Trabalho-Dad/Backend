@@ -25,7 +25,7 @@ public class UserService {
     return new FindMyUserOutputDTO(
         user,
         user.getContacts().stream().map(ContactMapper::convertEntityToSimpleDTO).toList(),
-        user.getAddresses().stream().map(AddressMapper::convertToSimpleDTO).toList()
+        user.getAddresses().stream().map(AddressMapper::convertEntityToSimpleDTO).toList()
     );
   }
 

@@ -10,8 +10,7 @@ public class UserOrderMapper {
         userOrder.getPrice(),
         userOrder.getFinalPrice(),
         userOrder.getDiscount(),
-        userOrder.getStatus(),
-        userOrder.getInstallmentsCount()
+        userOrder.getStatus()
     );
   }
 }

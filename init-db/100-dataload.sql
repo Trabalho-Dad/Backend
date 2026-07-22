@@ -1,12 +1,4 @@
--- ------------------------------------------------------------
--- Payment Types
--- ------------------------------------------------------------
-
-INSERT INTO payment_type (name)
-VALUES
-('CREDIT_CARD'),
-('PIX'),
-('BOLETO');
+BEGIN;
 
 -- ------------------------------------------------------------
 -- Contact Types
@@ -45,7 +37,6 @@ VALUES
 INSERT INTO address (
     complement,
     cep,
-    country,
     state,
     city,
     neighborhood,
@@ -56,8 +47,7 @@ INSERT INTO address (
 VALUES
 (
     'Apto 12',
-    '01000-000',
-    'Brasil',
+    '01000000',
     'SP',
     'São Paulo',
     'Centro',
@@ -189,11 +179,10 @@ INSERT INTO user_order (
     final_price,
     discount,
     status,
-    installments_count,
     id_user
 )
 VALUES
-(249.90,224.91,24.99,4,1,1);
+(249.90,224.91,24.99,4,1);
 
 INSERT INTO user_order_coupons (
     id_user_order,
@@ -217,18 +206,18 @@ VALUES
 
 INSERT INTO payment (
     pay_value,
-    installment_number,
     pay_date,
-    valid_date,
-    id_payment_type,
+    due_date,
+    payment_type,
     id_user_order
 )
 VALUES
 (
     224.91,
-    1,
     CURRENT_DATE,
     '2026-12-31',
     1,
     1
 );
+
+COMMIT;

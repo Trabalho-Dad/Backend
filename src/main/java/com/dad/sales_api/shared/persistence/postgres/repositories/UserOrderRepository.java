@@ -13,4 +13,9 @@ public interface UserOrderRepository extends JpaRepository<UserOrderEntity, Inte
       Integer userId,
       OrderStatusEnum status
   );
+
+  Optional<UserOrderEntity> findByIdAndUserId(
+      Integer id,
+      Integer userId
+  );
 }

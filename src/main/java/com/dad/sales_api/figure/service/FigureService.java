@@ -63,6 +63,7 @@ public class FigureService {
         f.quantity(),
         f.active(),
         f.isLaunch(),
+        f.category(),
         f.images().stream()
           .filter(image -> image.imageType() == ImageTypeEnum.PRIMARY_FIGURE)
           .toList()

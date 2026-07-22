@@ -31,4 +31,27 @@ public class SalesConstants {
   // Description's length:
   public final static int MAX_DESCRIPTION_LENGTH=2000;
   public final static int MIN_DESCRIPTION_LENGTH=15;
+
+  // Address's length:
+  public static final int MIN_COMPLEMENT_LENGTH = 3;
+  public static final int MAX_COMPLEMENT_LENGTH = 255;
+  public static final int CEP_LENGTH = 8;
+
+  public static final int MIN_STATE_LENGTH = 2;
+  public static final int MAX_STATE_LENGTH = 100;
+
+  public static final int MIN_CITY_LENGTH = 2;
+  public static final int MAX_CITY_LENGTH = 100;
+
+  public static final int MIN_NEIGHBORHOOD_LENGTH = 2;
+  public static final int MAX_NEIGHBORHOOD_LENGTH = 150;
+
+  public static final int MIN_STREET_LENGTH = 2;
+  public static final int MAX_STREET_LENGTH = 200;
+
+  public static final int MIN_NUMBER_LENGTH = 1;
+  public static final int MAX_NUMBER_LENGTH = 10;
+
+  // Addresses limit:
+  public final static int LIMIT_ADDRESS=5;
 }

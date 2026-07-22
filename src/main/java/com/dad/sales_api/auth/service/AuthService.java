@@ -7,6 +7,7 @@ import com.dad.sales_api.shared.enums.RoleEnum;
 import com.dad.sales_api.shared.exceptions.BadRequestException;
 import com.dad.sales_api.shared.exceptions.UnauthorizedException;
 import com.dad.sales_api.shared.helpers.services.CpfValidatorService;
+import com.dad.sales_api.shared.helpers.services.MessageService;
 import com.dad.sales_api.shared.persistence.mongo.documents.PasswordResetCode;
 import com.dad.sales_api.shared.persistence.mongo.repositories.PasswordResetCodeRepository;
 import com.dad.sales_api.shared.helpers.services.EmailService;
@@ -33,13 +34,14 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+  private final UserRepository userRepository;
+  private final PasswordResetCodeRepository passwordResetCodeRepository;
   private final UserDetailsService userDetailsService;
   private final EmailService emailService;
   private final CpfValidatorService cpfValidatorService;
+  private final MessageService messageService;
   private final PasswordEncoder passwordEncoder;
   private final JwtUtils jwtUtils;
-  private final UserRepository userRepository;
-  private final PasswordResetCodeRepository passwordResetCodeRepository;
   private final Random random;
 
 
@@ -53,7 +55,8 @@ public class AuthService {
     CustomUserDetails user =
         (CustomUserDetails) userDetails;
 
-    if (!passwordEncoder.matches(senha, userDetails.getPassword())) throw new UnauthorizedException("{exception.login.unhautorized}");
+    if (!passwordEncoder.matches(senha, userDetails.getPassword())) throw new UnauthorizedException(
+        messageService.getMessage("exception.login.unhautorized"));
 
     String token = jwtUtils.generateToken(
       user.getUsername(),
@@ -63,22 +66,28 @@ public class AuthService {
 
     return new LoginOutputDTO(
       token,
-      "{login.realized}"
+      messageService.getMessage("login.realized")
     );
   }
 
   public RegisterOutputDTO register(RegisterInputDTO input) {
-    if (!cpfValidatorService.validateCpf(input.cpf()).valid()) throw new BadRequestException("{validation.cpf.exists}");
+    if (!cpfValidatorService.validateCpf(input.cpf()).valid()) throw new BadRequestException(
+        messageService.getMessage("validation.cpf.exists")
+    );
 
     UserEntity emailExists =
         userRepository.findByEmail(input.email());
 
-    if (emailExists != null) throw new BadRequestException("{validation.email.invalid}");
+    if (emailExists != null) throw new BadRequestException(
+        messageService.getMessage("validation.email.invalid")
+    );
 
     UserEntity cpfExists =
         userRepository.findByCpf(input.cpf());
 
-    if (cpfExists != null) throw new BadRequestException("{validation.cpf.invalid}");
+    if (cpfExists != null) throw new BadRequestException(
+        messageService.getMessage("validation.cpf.invalid")
+    );
 
     UserEntity user = new UserEntity();
 
@@ -142,7 +151,9 @@ public class AuthService {
   public ValidateCodeOutputDTO validateCode(ValidateCodeInputDTO input){
     PasswordResetCode passwordResetCode = passwordResetCodeRepository.findByEmailAndUsed(input.email(), Boolean.FALSE);
 
-    if (passwordResetCode == null) throw new UnauthorizedException("{validation.change-password.code.incorrect}");
+    if (passwordResetCode == null) throw new UnauthorizedException(
+        messageService.getMessage("validation.change-password.code.incorrect")
+    );
 
     if (passwordResetCode.getCode().equals(input.code())) {
       passwordResetCode.setUsed(true);
@@ -153,7 +164,9 @@ public class AuthService {
           input.code(),
           true
       );
-    } else throw new UnauthorizedException("{validation.change-password.code.incorrect}");
+    } else throw new UnauthorizedException(
+        messageService.getMessage("validation.change-password.code.incorrect")
+    );
   }
 
   public void changePassword(
@@ -161,9 +174,13 @@ public class AuthService {
   ){
     PasswordResetCode passwordResetCode = passwordResetCodeRepository.findByEmailAndUsed(input.email(), Boolean.TRUE);
 
-    if (!passwordResetCode.getCode().equals(input.code())) throw new UnauthorizedException("{validation.change-password.code.incorrect}");
+    if (!passwordResetCode.getCode().equals(input.code())) throw new UnauthorizedException(
+        messageService.getMessage("validation.change-password.code.incorrect")
+    );
 
-    if (!input.newPassword().equals(input.confirmPassword())) throw new BadRequestException("{validation.change-password.incorrect}");
+    if (!input.newPassword().equals(input.confirmPassword())) throw new BadRequestException(
+        messageService.getMessage("validation.change-password.incorrect")
+    );
 
     UserEntity user = userRepository.findByEmail(input.email());
 

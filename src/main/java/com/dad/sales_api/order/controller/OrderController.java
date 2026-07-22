@@ -2,8 +2,10 @@ package com.dad.sales_api.order.controller;
 
 import com.dad.sales_api.order.dto.input.AddItemsInputDTO;
 import com.dad.sales_api.order.dto.input.FindManyOrdersInputDTO;
+import com.dad.sales_api.order.dto.input.FindOrderByIdInputDTO;
 import com.dad.sales_api.order.dto.output.AddItemsOutputDTO;
 import com.dad.sales_api.order.dto.output.FindManyOrdersOutputDTO;
+import com.dad.sales_api.order.dto.output.FindOrderByIdOutputDTO;
 import com.dad.sales_api.order.dto.query_params.FindManyOrdersQueryParamsDTO;
 import com.dad.sales_api.order.dto.request.AddItemsRequestDTO;
 import com.dad.sales_api.order.service.OrderService;
@@ -15,6 +17,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,6 +68,45 @@ public class OrderController {
   }
 
   @Operation(
+      summary = "Retorna um pedido",
+      description = "Retorna os detalhes de um pedido pelo seu id",
+      tags = { "Order" },
+      responses = {
+          @ApiResponse(description = "Success", responseCode = "200", content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = FindManyOrdersOutputDTO.class))
+          )
+          ),
+          @ApiResponse(description = "Unhautorized", responseCode = "401", content = @Content),
+          @ApiResponse(description = "Forbidden", responseCode = "403", content = @Content),
+          @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+      }
+  )
+  @GetMapping("/{id}")
+  public ResponseEntity<FindOrderByIdOutputDTO> findById(
+      Authentication authentication,
+
+      @PathVariable
+      @Valid
+      @NotNull(message = "{validation.order-id.required}")
+      @Min(value = 1, message = "{validation.order-id.min-value}")
+      Integer id
+  ){
+    CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+    return new ResponseEntity<>(
+        this.orderService.findById(
+            new FindOrderByIdInputDTO(
+                id,
+                user.getId()
+            )
+        ),
+        HttpStatus.OK
+    );
+  }
+
+  @Operation(
       summary = "Adiciona um item ao meu pedido",
       description = "Adiciona uma determinada quantidade de um boneco ao meu pedido, além de criar um pedido se não existir",
       tags = { "Order" },
@@ -86,7 +129,7 @@ public class OrderController {
       @RequestBody
       @Valid
       AddItemsRequestDTO input
-  ){
+  ) {
     CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
     return new ResponseEntity(

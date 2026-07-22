@@ -60,10 +60,10 @@ public class SecurityConfig implements UserDetailsService {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
                 "/api/auth/**",
-                "/api/figure",
-                "/api/figure/**",
-                "/api/category",
-                "/api/category/**",
+                "/api/figures",
+                "/api/figures/**",
+                "/api/categories",
+                "/api/categories/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html",
                 "/v3/api-docs/**"
@@ -72,7 +72,14 @@ public class SecurityConfig implements UserDetailsService {
             .requestMatchers("/api/admin/**")
             .hasRole("ADMIN")
 
-            .requestMatchers("/api/user", "/api/user/**")
+            .requestMatchers(
+                "/api/users",
+                "/api/users/**",
+                "/api/orders",
+                "/api/orders/**",
+                "/api/addresses",
+                "/api/addresses/**"
+             )
             .authenticated()
 
             .anyRequest()

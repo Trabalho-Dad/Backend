@@ -2,11 +2,16 @@ package com.dad.sales_api.order.service;
 
 import com.dad.sales_api.order.dto.input.AddItemsInputDTO;
 import com.dad.sales_api.order.dto.input.FindManyOrdersInputDTO;
+import com.dad.sales_api.order.dto.input.FindOrderByIdInputDTO;
 import com.dad.sales_api.order.dto.output.AddItemsOutputDTO;
 import com.dad.sales_api.order.dto.output.FindManyOrdersOutputDTO;
+import com.dad.sales_api.order.dto.output.FindOrderByIdOutputDTO;
 import com.dad.sales_api.shared.enums.OrderStatusEnum;
 import com.dad.sales_api.shared.exceptions.NotFoundException;
 import com.dad.sales_api.shared.helpers.PaginationHelper;
+import com.dad.sales_api.shared.helpers.services.MessageService;
+import com.dad.sales_api.shared.mappers.PaymentMapper;
+import com.dad.sales_api.shared.mappers.UserOrderFigureMapper;
 import com.dad.sales_api.shared.mappers.UserOrderMapper;
 import com.dad.sales_api.shared.persistence.postgres.dto.UserOrderSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
@@ -19,6 +24,7 @@ import com.dad.sales_api.shared.persistence.postgres.repositories.UserOrderFigur
 import com.dad.sales_api.shared.persistence.postgres.repositories.UserOrderRepository;
 import com.dad.sales_api.shared.persistence.postgres.repositories.UserRepository;
 import com.dad.sales_api.shared.persistence.postgres.specifications.UserOrderSpecification;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -34,6 +40,7 @@ public class OrderService {
   private final UserOrderFigureRepository userOrderFigureRepository;
   private final FigureRepository figureRepository;
   private final UserRepository userRepository;
+  private final MessageService messageService;
 
   public FindManyOrdersOutputDTO findMyOrders(FindManyOrdersInputDTO input){
     Specification<UserOrderEntity> spec = Specification
@@ -65,9 +72,34 @@ public class OrderService {
     );
   }
 
+  @Transactional
+  public FindOrderByIdOutputDTO findById(FindOrderByIdInputDTO input){
+    UserOrderEntity order = userOrderRepository.findByIdAndUserId(
+        input.id(),
+        input.userId()
+    ).orElseThrow(
+        () -> new NotFoundException(
+            messageService.getMessage("exception.order.not-found")
+        )
+    );
+
+    return new FindOrderByIdOutputDTO(
+        order.getId(),
+        order.getPrice(),
+        order.getDiscount(),
+        order.getFinalPrice(),
+        order.getStatus(),
+        order.getCreatedAt(),
+        order.getFigures().stream().map(UserOrderFigureMapper::convertEntityToSimpleDTO).toList(),
+        order.getPayments().stream().map(PaymentMapper::convertEntityToSimpleDTO).toList()
+    );
+  }
+
   public AddItemsOutputDTO addItem(AddItemsInputDTO input){
     FigureEntity figure = figureRepository.findById(input.figureId()).orElseThrow(
-        () -> new NotFoundException("{exception.figure.not-found}")
+        () -> new NotFoundException(
+            messageService.getMessage("exception.figure.not-found")
+        )
     );
 
     UserOrderEntity order = userOrderRepository.findByUserIdAndStatus(
@@ -112,7 +144,9 @@ public class OrderService {
 
   private UserOrderEntity createOrder(Integer userId) {
     UserEntity user = userRepository.findById(userId)
-        .orElseThrow(() -> new NotFoundException("{exception.user.not-found}"));
+        .orElseThrow(() -> new NotFoundException(
+            messageService.getMessage("exception.user.not-found"))
+        );
 
     UserOrderEntity order = new UserOrderEntity();
     order.setUser(user);
@@ -121,7 +155,6 @@ public class OrderService {
     order.setDiscount(BigDecimal.ZERO);
     order.setFinalPrice(BigDecimal.ZERO);
     order.setCreatedAt(LocalDateTime.now());
-    order.setInstallmentsCount(1);
 
     return userOrderRepository.save(order);
   }
