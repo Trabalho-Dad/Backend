@@ -187,6 +187,17 @@ CREATE TABLE payment (
 );
 
 -- ------------------------------------------------------------
+-- favorite
+-- ------------------------------------------------------------
+
+CREATE TABLE favorite (
+    id_user   INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id_figure INT NOT NULL REFERENCES figure(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (id_user, id_figure)
+);
+
+-- ------------------------------------------------------------
 -- Índices
 -- ------------------------------------------------------------
 
@@ -213,3 +224,9 @@ CREATE INDEX idx_image_figure
 
 CREATE INDEX idx_payment_order
     ON payment(id_user_order);
+
+CREATE INDEX idx_favorite_user
+    ON favorite(id_user);
+
+CREATE INDEX idx_favorite_figure
+    ON favorite(id_figure);
