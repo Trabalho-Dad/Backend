@@ -11,9 +11,10 @@ public record FindManyFiguresQueryParamsDTO(
   )
   String name,
   Boolean active,
-  @Min(1)
+  @Min(value = 1, message = "{validation.page.min-value}")
   Integer page,
-  @Min(1)
+
+  @Min(value = 1, message = "{validation.take.min-value}")
   Integer take
 ) {
   public FindManyFiguresQueryParamsDTO {

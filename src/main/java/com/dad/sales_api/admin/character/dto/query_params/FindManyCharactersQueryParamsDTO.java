@@ -11,10 +11,10 @@ public record FindManyCharactersQueryParamsDTO(
     )
     String name,
     Boolean active,
-    @Min(1)
+    @Min(value = 1, message = "{validation.page.min-value}")
     Integer page,
 
-    @Min(1)
+    @Min(value = 1, message = "{validation.take.min-value}")
     Integer take
 ) {
   public FindManyCharactersQueryParamsDTO(String name, Boolean active, Integer page, Integer take) {

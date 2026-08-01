@@ -17,8 +17,14 @@ public record UpdateCategoryRequestDTO(
         regexp = RegexPatterns.NAME,
         message = "{validation.name.regex}"
     )
-  String name,
-  String description,
-  Boolean active
+    String name,
+
+    @Size(
+      min = SalesConstants.MIN_DESCRIPTION_LENGTH,
+      max = SalesConstants.MAX_DESCRIPTION_LENGTH,
+      message = "{validation.description.size}"
+    )
+    String description,
+    Boolean active
 ) {
 }

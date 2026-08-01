@@ -144,11 +144,9 @@ CREATE TABLE coupon (
     id           SERIAL PRIMARY KEY,
     end_date     DATE,
     code         VARCHAR(50) NOT NULL UNIQUE,
-    description  TEXT,
     discount_pct NUMERIC(5,2),
     usage_limit  INT,
     usage_count  INT DEFAULT 0,
-    active       BOOLEAN NOT NULL DEFAULT TRUE,
     start_date   DATE
 );
 
@@ -157,14 +155,17 @@ CREATE TABLE coupon (
 -- ------------------------------------------------------------
 
 CREATE TABLE user_order (
-    id                 SERIAL PRIMARY KEY,
-    price              NUMERIC(10,2),
-    final_price        NUMERIC(10,2) NOT NULL,
-    discount           NUMERIC(10,2),
-    status             INT,
-    created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
-    id_user            INT NOT NULL REFERENCES users(id),
-    id_address         INT REFERENCES address(id)
+    id                      SERIAL PRIMARY KEY,
+    price                   NUMERIC(10,2),
+    final_price             NUMERIC(10,2) NOT NULL,
+    discount                NUMERIC(10,2),
+    shipping_cost           NUMERIC(10,2),
+    estimated_delivery_time INT,
+    installments_count      INT,
+    status                  INT,
+    created_at              TIMESTAMP NOT NULL DEFAULT NOW(),
+    id_user                 INT NOT NULL REFERENCES users(id),
+    id_address              INT REFERENCES address(id)
 );
 
 CREATE TABLE user_order_coupons (
@@ -187,10 +188,13 @@ CREATE TABLE user_order_figure (
 
 CREATE TABLE payment (
     id SERIAL PRIMARY KEY,
+    installment_number INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     pay_value NUMERIC(10,2) NOT NULL,
     pay_date DATE,
     due_date DATE NOT NULL,
     payment_type INT NOT NULL,
+    payment_status INT NOT NULL,
     id_user_order INT NOT NULL REFERENCES user_order(id)
 );
 

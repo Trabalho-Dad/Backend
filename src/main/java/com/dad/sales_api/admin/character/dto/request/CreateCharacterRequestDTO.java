@@ -21,13 +21,19 @@ public record CreateCharacterRequestDTO(
         message = "{validation.name.regex}"
     )
     String name,
+
+    @Size(
+        min = SalesConstants.MIN_DESCRIPTION_LENGTH,
+        max = SalesConstants.MAX_DESCRIPTION_LENGTH,
+        message = "{validation.description.size}"
+    )
     String description,
     Boolean active,
     List<Integer> imageIds
 ) {
   public CreateCharacterRequestDTO(String name, String description, Boolean active, List<Integer> imageIds) {
     this.name = name;
-    this.description = description != null ? description : "";
+    this.description = description;
     this.active = active != null ? active : true;
     this.imageIds = imageIds;
   }

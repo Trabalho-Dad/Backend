@@ -17,8 +17,10 @@ import org.springframework.context.annotation.Configuration;
         @Tag(name = "User", description = "Rotas para visualização e edição do usuário logado"),
         @Tag(name = "Address", description = "Informações sobre os endereços do meu usuário"),
         @Tag(name = "Order", description = "Rotas para CRUD de carrinhos/pedidos"),
+        @Tag(name = "Payment", description = "Rotas para pagamentos dentro da aplicação"),
         @Tag(name = "Figure", description = "Rotas públicas para visualização dos bonecos"),
-        @Tag(name = "Category", description = "Rotas públicas para visualização das categorias")
+        @Tag(name = "Category", description = "Rotas públicas para visualização das categorias"),
+        @Tag(name = "Admin Coupons", description = "Rotas para CRUD de cupons de desconto")
     }
 )
 public class OpenAPIConfig {

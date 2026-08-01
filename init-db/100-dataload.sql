@@ -159,22 +159,21 @@ VALUES
 INSERT INTO coupon (
     end_date,
     code,
-    description,
     discount_pct,
     usage_limit,
     usage_count,
-    active,
     start_date
 )
 VALUES
-('2026-12-31','WELCOME10','10% de desconto',10.00,100,0,TRUE,'2026-01-01'),
-('2026-12-31','FRETE0','Frete grátis',0.00,50,0,TRUE,'2026-01-01');
+('2026-12-31','WELCOME10',10.00,100,0,'2026-01-01'),
+('2026-12-31','FRETE0',0.00,50,0,'2026-01-01');
 
 -- ------------------------------------------------------------
 -- Orders
 -- ------------------------------------------------------------
 
 INSERT INTO user_order (
+    installments_count,
     price,
     final_price,
     discount,
@@ -182,7 +181,7 @@ INSERT INTO user_order (
     id_user
 )
 VALUES
-(249.90,224.91,24.99,4,1);
+(1, 249.90,224.91,24.99,4,1);
 
 INSERT INTO user_order_coupons (
     id_user_order,
@@ -205,18 +204,22 @@ VALUES
 -- ------------------------------------------------------------
 
 INSERT INTO payment (
+    installment_number,
     pay_value,
     pay_date,
     due_date,
     payment_type,
+    payment_status,
     id_user_order
 )
 VALUES
 (
+    1,
     224.91,
     CURRENT_DATE,
     '2026-12-31',
     1,
+    0,
     1
 );
 

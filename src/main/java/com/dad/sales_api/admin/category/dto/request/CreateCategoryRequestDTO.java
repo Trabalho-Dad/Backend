@@ -20,12 +20,18 @@ public record CreateCategoryRequestDTO(
         message = "{validation.name.regex}"
     )
   String name,
+
+  @Size(
+    min = SalesConstants.MIN_DESCRIPTION_LENGTH,
+    max = SalesConstants.MAX_DESCRIPTION_LENGTH,
+    message = "{validation.description.size}"
+  )
   String description,
   Boolean active
 ) {
   public CreateCategoryRequestDTO(String name, String description, Boolean active){
     this.name = name;
-    this.description = description != null ? description : "";
+    this.description = description;
     this.active = active != null ? active : true;
   }
 }

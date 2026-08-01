@@ -30,7 +30,7 @@ public class SalesConstants {
 
   // Description's length:
   public final static int MAX_DESCRIPTION_LENGTH=2000;
-  public final static int MIN_DESCRIPTION_LENGTH=15;
+  public final static int MIN_DESCRIPTION_LENGTH=5;
 
   // Address's length:
   public static final int MIN_COMPLEMENT_LENGTH = 3;
@@ -52,6 +52,14 @@ public class SalesConstants {
   public static final int MIN_NUMBER_LENGTH = 1;
   public static final int MAX_NUMBER_LENGTH = 10;
 
+//  Coupons' constraints:
+  public final static int MAX_CODE_LENGTH = 50;
+
+  public final static int MIN_CODE_LENGTH = 2;
+
   // Addresses limit:
-  public final static int LIMIT_ADDRESS=5;
+  public final static int LIMIT_ADDRESS = 5;
+
+//  Payment days limit:
+  public final static int DAYS_TO_PAY = 7;
 }

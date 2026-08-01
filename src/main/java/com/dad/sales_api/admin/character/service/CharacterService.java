@@ -13,7 +13,7 @@ import com.dad.sales_api.admin.character.dto.input.FindManyCharactersInputDTO;
 import com.dad.sales_api.admin.character.dto.input.UpdateCharacterInputDTO;
 import com.dad.sales_api.admin.character.dto.output.CreateCharacterOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.FindCharacterByIdOutputDTO;
-import com.dad.sales_api.admin.character.dto.output.FindManyCharacterOutputDTO;
+import com.dad.sales_api.admin.character.dto.output.FindManyCharactersOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.UpdateCharacterOutputDTO;
 import com.dad.sales_api.shared.persistence.postgres.dto.CharacterSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.CharacterEntity;
@@ -36,7 +36,7 @@ public class CharacterService {
   private final CharacterRepository characterRepository;
   private final ImageRepository imageRepository;
 
-  public FindManyCharacterOutputDTO findMany(
+  public FindManyCharactersOutputDTO findMany(
     FindManyCharactersInputDTO input
   ){
     Specification<CharacterEntity> spec = Specification
@@ -61,7 +61,7 @@ public class CharacterService {
 
     List<CharacterSimpleDTO> output = characters.stream().map(CharacterMapper::convertToSimpleDTO).toList();
 
-    return new FindManyCharacterOutputDTO(
+    return new FindManyCharactersOutputDTO(
       output,
       totalPages,
       count

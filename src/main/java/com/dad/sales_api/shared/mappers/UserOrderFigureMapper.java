@@ -6,7 +6,6 @@ import com.dad.sales_api.shared.persistence.postgres.entities.UserOrderFigureEnt
 public class UserOrderFigureMapper {
   public static UserOrderFigureSimpleDTO convertEntityToSimpleDTO(UserOrderFigureEntity entity){
     return new UserOrderFigureSimpleDTO(
-        entity.getId(),
         FigureMapper.convertEntityToSimpleDTO(entity.getFigure()),
         entity.getQuantity(),
         entity.getPrice()

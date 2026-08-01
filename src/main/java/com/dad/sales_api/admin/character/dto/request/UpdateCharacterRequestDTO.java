@@ -19,6 +19,12 @@ public record UpdateCharacterRequestDTO(
         message = "{validation.name.regex}"
     )
     String name,
+
+    @Size(
+        min = SalesConstants.MIN_DESCRIPTION_LENGTH,
+        max = SalesConstants.MAX_DESCRIPTION_LENGTH,
+        message = "{validation.description.size}"
+    )
     String description,
     Boolean active
 ) {

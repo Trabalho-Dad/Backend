@@ -8,4 +8,8 @@ import java.util.Optional;
 
 public interface UserOrderFigureRepository extends JpaRepository<UserOrderFigureEntity, UserOrderFigureId> {
   Optional<UserOrderFigureEntity> findByUserOrderIdAndFigureId(Integer orderId, Integer figureId);
+
+  void deleteById(
+      UserOrderFigureId id
+  );
 }
