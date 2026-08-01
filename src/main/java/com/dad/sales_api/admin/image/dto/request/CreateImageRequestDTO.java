@@ -9,6 +9,11 @@ import org.hibernate.validator.constraints.URL;
 
 public record CreateImageRequestDTO (
     @NotBlank(message = "{validation.description.required}")
+    @Size(
+        min = SalesConstants.MIN_DESCRIPTION_LENGTH,
+        max = SalesConstants.MAX_DESCRIPTION_LENGTH,
+        message = "{validation.description.size}"
+    )
     String description,
 
     @NotBlank(message = "{validation.url.required}")

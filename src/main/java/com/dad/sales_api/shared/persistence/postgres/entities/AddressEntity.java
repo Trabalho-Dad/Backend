@@ -1,18 +1,13 @@
 package com.dad.sales_api.shared.persistence.postgres.entities;
 
 import com.dad.sales_api.shared.SalesConstants;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "address")
@@ -50,4 +45,7 @@ public class AddressEntity {
   @ManyToOne
   @JoinColumn(name = "id_user", nullable = false)
   private UserEntity user;
+
+  @OneToMany(mappedBy = "address")
+  private List<UserOrderEntity> userOrders;
 }

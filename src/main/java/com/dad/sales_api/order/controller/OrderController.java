@@ -1,13 +1,12 @@
 package com.dad.sales_api.order.controller;
 
-import com.dad.sales_api.order.dto.input.AddItemsInputDTO;
-import com.dad.sales_api.order.dto.input.FindManyOrdersInputDTO;
-import com.dad.sales_api.order.dto.input.FindOrderByIdInputDTO;
-import com.dad.sales_api.order.dto.output.AddItemsOutputDTO;
-import com.dad.sales_api.order.dto.output.FindManyOrdersOutputDTO;
-import com.dad.sales_api.order.dto.output.FindOrderByIdOutputDTO;
+import com.dad.sales_api.order.dto.input.*;
+import com.dad.sales_api.order.dto.output.*;
 import com.dad.sales_api.order.dto.query_params.FindManyOrdersQueryParamsDTO;
+import com.dad.sales_api.order.dto.request.AddCouponRequestDTO;
 import com.dad.sales_api.order.dto.request.AddItemsRequestDTO;
+import com.dad.sales_api.order.dto.request.FinishOrderRequestDTO;
+import com.dad.sales_api.order.dto.request.RemoveItemRequestDTO;
 import com.dad.sales_api.order.service.OrderService;
 import com.dad.sales_api.shared.config.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -122,7 +121,7 @@ public class OrderController {
           @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
       }
   )
-  @PostMapping("/items")
+  @PostMapping("/add-items")
   public ResponseEntity<AddItemsOutputDTO> addItems(
       Authentication authentication,
 
@@ -141,5 +140,154 @@ public class OrderController {
         ),
         HttpStatus.OK
     );
+  }
+
+  @Operation(
+      summary = "Remove um item do meu pedido",
+      description = "Remove determinada quantidade de um boneco do meu pedido",
+      tags = { "Order" },
+      responses = {
+          @ApiResponse(description = "Success", responseCode = "200", content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = RemoveItemOutputDTO.class))
+          )
+          ),
+          @ApiResponse(description = "Unhautorized", responseCode = "401", content = @Content),
+          @ApiResponse(description = "Forbidden", responseCode = "403", content = @Content),
+          @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+      }
+  )
+  @PostMapping("/remove-items")
+  public ResponseEntity<RemoveItemOutputDTO> removeItem(
+      Authentication authentication,
+
+      @RequestBody
+      @Valid
+      RemoveItemRequestDTO input
+  ) {
+    CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+    return new ResponseEntity(
+        this.orderService.removeItem(
+            new RemoveItemInputDTO(
+                input,
+                user.getId()
+            )
+        ),
+        HttpStatus.OK
+    );
+  }
+
+  @Operation(
+      summary = "Adiciona um cupom ao meu pedido",
+      description = "Adiciona um cupom de desconto ao meu pedido",
+      tags = { "Order" },
+      responses = {
+          @ApiResponse(description = "Success", responseCode = "200", content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = AddCouponOutputDTO.class))
+          )
+          ),
+          @ApiResponse(description = "Unhautorized", responseCode = "401", content = @Content),
+          @ApiResponse(description = "Forbidden", responseCode = "403", content = @Content),
+          @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+      }
+  )
+  @PostMapping("/add-cupons")
+  public ResponseEntity<AddCouponOutputDTO> addCoupon(
+      Authentication authentication,
+
+      @RequestBody
+      @Valid
+      AddCouponRequestDTO input
+  ){
+    CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+    return new ResponseEntity<>(
+        this.orderService.addCoupon(
+            new AddCouponInputDTO(
+                user.getId(),
+                input.orderId(),
+                input.code()
+            )
+        ),
+        HttpStatus.OK
+    );
+
+  }
+
+  @Operation(
+      summary = "Finaliza um pedido",
+      description = "Finaliza meu pedido em aberto",
+      tags = { "Order" },
+      responses = {
+          @ApiResponse(description = "Success", responseCode = "200", content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = FinishOrderOutputDTO.class))
+          )
+          ),
+          @ApiResponse(description = "Unhautorized", responseCode = "401", content = @Content),
+          @ApiResponse(description = "Forbidden", responseCode = "403", content = @Content),
+          @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+      }
+  )
+  @PostMapping("/finish")
+  public ResponseEntity<FinishOrderOutputDTO> finishOrder(
+      Authentication authentication,
+
+      @RequestBody
+      @Valid
+      FinishOrderRequestDTO input
+  ){
+    CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+    return new ResponseEntity<>(
+        this.orderService.finishOrder(
+            new FinishOrderInputDTO(
+                user.getId(),
+                input
+            )
+        ),
+        HttpStatus.OK
+    );
+  }
+
+  @Operation(
+      summary = "Cancela um pedido",
+      description = "Cancela um pedido que não esteja entregue",
+      tags = { "Order" },
+      responses = {
+          @ApiResponse(description = "No Content", responseCode = "204", content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = Void.class))
+          )
+          ),
+          @ApiResponse(description = "Unhautorized", responseCode = "401", content = @Content),
+          @ApiResponse(description = "Forbidden", responseCode = "403", content = @Content),
+          @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+      }
+  )
+  @PatchMapping("/cancel/{orderId}")
+  public ResponseEntity<Void> cancelOrder(
+      Authentication authentication,
+
+      @PathVariable
+      @Valid
+      Integer orderId
+  ){
+    CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+    this.orderService.cancelOrder(
+        new CancelOrderInputDTO(
+            orderId,
+            user.getId()
+        )
+    );
+
+    return ResponseEntity.noContent().build();
   }
 }

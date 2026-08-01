@@ -7,10 +7,11 @@ import jakarta.validation.constraints.Min;
 public record FindManyImagesQueryParamsDTO(
     String description,
     ImageTypeEnum type,
-    @Min(1)
+
+    @Min(value = 1, message = "{validation.page.min-value}")
     Integer page,
 
-    @Min(1)
+    @Min(value = 1, message = "{validation.take.min-value}")
     Integer take
 ) {
   public FindManyImagesQueryParamsDTO(String description, ImageTypeEnum type, Integer page, Integer take) {

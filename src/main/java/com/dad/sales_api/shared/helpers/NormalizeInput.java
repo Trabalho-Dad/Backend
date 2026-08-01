@@ -24,7 +24,7 @@ public class NormalizeInput {
   }
 
   public static String description(String description){
-    if (description == null || description.isBlank()) return "";
+    if (description == null || description.isBlank()) return description;
 
     return removeBlank(description);
   }

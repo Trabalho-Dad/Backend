@@ -7,10 +7,13 @@ public class PaymentMapper {
   public static PaymentSimpleDTO convertEntityToSimpleDTO(PaymentEntity entity){
     return new PaymentSimpleDTO(
         entity.getId(),
+        entity.getInstallmentNumber(),
         entity.getPayValue(),
+        entity.getCreatedAt(),
         entity.getPayDate(),
         entity.getDueDate(),
-        entity.getPaymentType()
+        entity.getPaymentType(),
+        entity.getPaymentStatus()
     );
   }
 }

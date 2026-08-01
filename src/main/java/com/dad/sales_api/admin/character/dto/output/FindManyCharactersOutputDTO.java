@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.dad.sales_api.shared.persistence.postgres.dto.CharacterSimpleDTO;
 
-public record FindManyCharacterOutputDTO(
+public record FindManyCharactersOutputDTO(
   List<CharacterSimpleDTO> characters,
   Integer totalPages,
   Integer count

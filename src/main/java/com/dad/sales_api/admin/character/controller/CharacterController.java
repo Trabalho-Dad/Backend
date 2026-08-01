@@ -8,7 +8,7 @@ import com.dad.sales_api.admin.character.dto.input.FindManyCharactersInputDTO;
 import com.dad.sales_api.admin.character.dto.input.UpdateCharacterInputDTO;
 import com.dad.sales_api.admin.character.dto.output.CreateCharacterOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.FindCharacterByIdOutputDTO;
-import com.dad.sales_api.admin.character.dto.output.FindManyCharacterOutputDTO;
+import com.dad.sales_api.admin.character.dto.output.FindManyCharactersOutputDTO;
 import com.dad.sales_api.admin.character.dto.output.UpdateCharacterOutputDTO;
 import com.dad.sales_api.admin.character.dto.query_params.FindManyCharactersQueryParamsDTO;
 import com.dad.sales_api.admin.character.dto.request.CreateCharacterRequestDTO;
@@ -36,7 +36,7 @@ public class CharacterController {
   private final CharacterService characterService;
 
   @GetMapping("")
-  public ResponseEntity<FindManyCharacterOutputDTO> findMany(
+  public ResponseEntity<FindManyCharactersOutputDTO> findMany(
       @ModelAttribute
       FindManyCharactersQueryParamsDTO query
   ) {
