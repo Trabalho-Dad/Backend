@@ -1,4 +1,4 @@
-package com.dad.sales_api.user.dto.output;
+package com.dad.sales_api.profile.dto.output;
 
 import com.dad.sales_api.shared.enums.RoleEnum;
 import com.dad.sales_api.shared.helpers.NormalizeOutput;
@@ -8,7 +8,7 @@ import com.dad.sales_api.shared.persistence.postgres.entities.UserEntity;
 
 import java.util.List;
 
-public record FindMyUserOutputDTO(
+public record FindMyProfileOutputDTO(
     Integer id,
     String name,
     String cpf,
@@ -18,7 +18,7 @@ public record FindMyUserOutputDTO(
     List<ContactSimpleDTO> contacts,
     List<AddressSimpleDTO> addresses
 ) {
-  public FindMyUserOutputDTO(UserEntity user, List<ContactSimpleDTO> contacts, List<AddressSimpleDTO> addresses) {
+  public FindMyProfileOutputDTO(UserEntity user, List<ContactSimpleDTO> contacts, List<AddressSimpleDTO> addresses) {
     this(
         user.getId(),
         NormalizeOutput.name(user.getName()),

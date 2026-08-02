@@ -1,36 +1,36 @@
-package com.dad.sales_api.user.service;
+package com.dad.sales_api.profile.service;
 
 import com.dad.sales_api.shared.exceptions.NotFoundException;
 import com.dad.sales_api.shared.mappers.AddressMapper;
 import com.dad.sales_api.shared.mappers.ContactMapper;
 import com.dad.sales_api.shared.persistence.postgres.entities.UserEntity;
 import com.dad.sales_api.shared.persistence.postgres.repositories.UserRepository;
-import com.dad.sales_api.user.dto.input.FindMyUserInputDTO;
-import com.dad.sales_api.user.dto.input.UpdateUserInputDTO;
-import com.dad.sales_api.user.dto.output.FindMyUserOutputDTO;
-import com.dad.sales_api.user.dto.output.UpdateUserOutputDTO;
+import com.dad.sales_api.profile.dto.input.FindMyProfileInputDTO;
+import com.dad.sales_api.profile.dto.input.UpdateProfileInputDTO;
+import com.dad.sales_api.profile.dto.output.FindMyProfileOutputDTO;
+import com.dad.sales_api.profile.dto.output.UpdateProfileOutputDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service("publicUserService")
 @RequiredArgsConstructor
-public class UserService {
+public class ProfileService {
   private final UserRepository userRepository;
 
   @Transactional
-  public FindMyUserOutputDTO findMyUser(FindMyUserInputDTO input){
+  public FindMyProfileOutputDTO findMyUser(FindMyProfileInputDTO input){
     UserEntity user = find(input.id());
 
-    return new FindMyUserOutputDTO(
+    return new FindMyProfileOutputDTO(
         user,
         user.getContacts().stream().map(ContactMapper::convertEntityToSimpleDTO).toList(),
         user.getAddresses().stream().map(AddressMapper::convertEntityToSimpleDTO).toList()
     );
   }
 
-  public UpdateUserOutputDTO update(
-      UpdateUserInputDTO input
+  public UpdateProfileOutputDTO update(
+      UpdateProfileInputDTO input
   ){
     UserEntity user = find(input.id());
 
@@ -39,7 +39,7 @@ public class UserService {
 
     userRepository.save(user);
 
-    return new UpdateUserOutputDTO(
+    return new UpdateProfileOutputDTO(
         user.getId(),
         user.getName(),
         user.getCpf(),
