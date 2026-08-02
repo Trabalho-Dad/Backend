@@ -6,6 +6,11 @@ import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 
 public class FigureMapper {
   public static FigureSimpleDTO convertEntityToSimpleDTO(FigureEntity entity){
+    String categoryName = entity.getCategories().stream()
+        .findFirst()
+        .map(category -> category.getName())
+        .orElse(null);
+
     return new FigureSimpleDTO(
       entity.getId(),
       entity.getName(),
@@ -14,7 +19,7 @@ public class FigureMapper {
       entity.getQuantity(),
       entity.getActive(),
       entity.getIsLaunch(),
-      entity.getCategories().get(0).getName(),
+      categoryName,
       entity.getImages().stream()
         .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
         .findFirst()
