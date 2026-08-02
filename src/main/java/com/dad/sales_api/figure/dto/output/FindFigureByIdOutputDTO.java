@@ -19,6 +19,8 @@ public record FindFigureByIdOutputDTO(
   CharacterSimpleDTO character,
   List<AccessorySimpleDTO> accessories,
   List<CategorySimpleDTO> categories,
+
+  ImageSimpleDTO mainImage,
   List<ImageSimpleDTO> images
 ) {
   
