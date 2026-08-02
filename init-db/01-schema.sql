@@ -1,3 +1,5 @@
+BEGIN;
+
 -- ------------------------------------------------------------
 -- Tabelas independentes
 -- ------------------------------------------------------------
@@ -239,3 +241,5 @@ CREATE INDEX idx_favorite_user
 
 CREATE INDEX idx_favorite_figure
     ON favorite(id_figure);
+
+COMMIT;
