@@ -1,5 +1,6 @@
 package com.dad.sales_api.shared.mappers;
 
+import com.dad.sales_api.shared.enums.ImageTypeEnum;
 import com.dad.sales_api.shared.persistence.postgres.dto.FigureSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 
@@ -14,8 +15,11 @@ public class FigureMapper {
       entity.getActive(),
       entity.getIsLaunch(),
       entity.getCategories().get(0).getName(),
-      entity.getImages().stream()
-          .map(ImageMapper::convertEntityToSimpleDTO).toList()
+      ImageMapper.convertEntityToSimpleDTO(
+        entity.getImages().stream()
+          .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
+          .toList().get(0)
+      )
     );
   }
 }

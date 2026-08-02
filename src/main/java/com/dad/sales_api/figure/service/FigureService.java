@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dad.sales_api.shared.enums.ImageTypeEnum;
+import com.dad.sales_api.shared.persistence.postgres.dto.ImageSimpleDTO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -55,19 +56,6 @@ public class FigureService {
 
     List<FigureSimpleDTO> output = figures.stream()
       .map(FigureMapper::convertEntityToSimpleDTO)
-      .map(f -> new FigureSimpleDTO(
-        f.id(),
-        f.name(),
-        f.description(),
-        f.price(),
-        f.quantity(),
-        f.active(),
-        f.isLaunch(),
-        f.category(),
-        f.images().stream()
-          .filter(image -> image.imageType() == ImageTypeEnum.PRIMARY_FIGURE)
-          .toList()
-      ))
       .toList();
 
     return new FindManyFiguresOutputDTO(output, totalPages, count);
@@ -79,6 +67,12 @@ public class FigureService {
 
     FigureEntity entity = figure.orElseThrow(
       () -> new NotFoundException("Boneco não encontrado!")
+    );
+
+    ImageSimpleDTO mainImage = ImageMapper.convertEntityToSimpleDTO(
+        entity.getImages().stream()
+            .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
+            .toList().get(0)
     );
 
     return new FindFigureByIdOutputDTO(
@@ -98,8 +92,10 @@ public class FigureService {
         .stream()
         .map(CategoryMapper::convertEntityToSimpleDTO)
         .toList(),
+      mainImage,
       entity.getImages()
         .stream()
+        .filter(f -> f.getId() != mainImage.id())
         .map(ImageMapper::convertEntityToSimpleDTO)
         .toList()
     );

@@ -14,9 +14,9 @@ public record FigureSimpleDTO(
   Boolean active,
   Boolean isLaunch,
   String category,
-  List<ImageSimpleDTO> images
+  ImageSimpleDTO mainImage
 ) {
-  public FigureSimpleDTO(Integer id, String name, String description, BigDecimal price, Integer quantity, Boolean active, Boolean isLaunch, String category, List<ImageSimpleDTO> images) {
+  public FigureSimpleDTO(Integer id, String name, String description, BigDecimal price, Integer quantity, Boolean active, Boolean isLaunch, String category, ImageSimpleDTO mainImage) {
     this.id = id;
     this.name = NormalizeOutput.name(name);
     this.description = description;
@@ -25,6 +25,6 @@ public record FigureSimpleDTO(
     this.active = active;
     this.isLaunch = isLaunch;
     this.category = category;
-    this.images = images;
+    this.mainImage = mainImage;
   }
 }
