@@ -1,5 +1,6 @@
 package com.dad.sales_api.shared.config;
 
+import com.dad.sales_api.shared.helpers.services.MessageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 @RequiredArgsConstructor
 public class SecurityConfig implements UserDetailsService {
   private final UserRepository customerRepository;
+  private final MessageService messageService;
   public static final String SECURITY = "BearerAuth";
 
   @Override
@@ -34,7 +36,9 @@ public class SecurityConfig implements UserDetailsService {
       );
     }
 
-    throw new UsernameNotFoundException("Usuário e/ou senha inválidos");
+    throw new UsernameNotFoundException(
+        messageService.getMessage("exception.login.unhautorized")
+    );
   }
 
   @Bean

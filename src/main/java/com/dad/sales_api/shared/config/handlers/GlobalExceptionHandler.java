@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.dad.sales_api.shared.config.handlers.dto.output.ExceptionOutputDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,20 @@ public class GlobalExceptionHandler {
             ex.getStatus().getReasonPhrase()
         ),
         ex.getStatus()
+    );
+  }
+
+
+  @ExceptionHandler(UsernameNotFoundException.class)
+  public ResponseEntity<ExceptionOutputDTO> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+    return new ResponseEntity<>(
+        new ExceptionOutputDTO(
+            ex.getMessage(),
+            Instant.now().toString(),
+            HttpStatus.UNAUTHORIZED.value(),
+            HttpStatus.UNAUTHORIZED.getReasonPhrase()
+        ),
+        HttpStatus.UNAUTHORIZED
     );
   }
 
