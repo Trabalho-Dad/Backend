@@ -1,5 +1,6 @@
 package com.dad.sales_api.user.dto.output;
 
+import com.dad.sales_api.shared.enums.RoleEnum;
 import com.dad.sales_api.shared.helpers.NormalizeOutput;
 import com.dad.sales_api.shared.persistence.postgres.dto.AddressSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.dto.ContactSimpleDTO;
@@ -12,6 +13,8 @@ public record FindMyUserOutputDTO(
     String name,
     String cpf,
     String email,
+
+    RoleEnum role,
     List<ContactSimpleDTO> contacts,
     List<AddressSimpleDTO> addresses
 ) {
@@ -21,6 +24,7 @@ public record FindMyUserOutputDTO(
         NormalizeOutput.name(user.getName()),
         NormalizeOutput.cpf(user.getCpf()),
         user.getEmail(),
+        user.getRole(),
         contacts,
         addresses
     );
