@@ -87,6 +87,42 @@ public class AuthController {
   }
 
   @Operation(
+      summary = "Retira o token JWT do cookie",
+      description = "Retira o token JWT do cookie HTTP",
+      tags = { "Auth" },
+      responses = {
+          @ApiResponse(description = "Success", responseCode = "200", content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = LoginOutputDTO.class))
+          )
+          ),
+          @ApiResponse(description = "Unhautorized", responseCode = "401", content = @Content),
+          @ApiResponse(description = "Forbidden", responseCode = "403", content = @Content),
+          @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+      }
+  )
+  @PostMapping("/logout")
+  public ResponseEntity<Void> logout(HttpServletResponse response) {
+
+    ResponseCookie cookie = ResponseCookie.from("access_token", "")
+        .httpOnly(true)
+        .secure(true)
+        .sameSite("None")
+        .path("/")
+        .maxAge(0)
+        .build();
+
+    response.addHeader(
+        HttpHeaders.SET_COOKIE,
+        cookie.toString()
+    );
+
+    return ResponseEntity.ok().build();
+  }
+
+
+  @Operation(
       summary = "Cadastra um cliente",
       description = "Cadastra um novo cliente dentro do sistema",
       tags = { "Auth" },
