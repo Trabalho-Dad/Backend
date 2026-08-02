@@ -12,13 +12,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.dad.sales_api.auth.dto.output.LoginOutputDTO;
@@ -28,6 +27,8 @@ import com.dad.sales_api.auth.dto.request.RegisterRequestDTO;
 import com.dad.sales_api.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import java.time.Duration;
 
 @Tag(name = "Auth", description = "Autenticação de usuários.")
 @RestController
@@ -56,10 +57,31 @@ public class AuthController {
   public ResponseEntity<LoginOutputDTO> login(
     @RequestBody
     @Valid
-    LoginRequestDTO input
+    LoginRequestDTO input,
+    HttpServletResponse response
   ) {
+    LoginOutputDTO output = authService.login(
+        new LoginInputDTO(input)
+    );
+
+    ResponseCookie cookie = ResponseCookie.from(
+            "access_token",
+            output.token()
+        )
+        .httpOnly(true)
+        .secure(true)
+        .sameSite("None")
+        .path("/")
+        .maxAge(Duration.ofDays(1))
+        .build();
+
+    response.addHeader(
+        HttpHeaders.SET_COOKIE,
+        cookie.toString()
+    );
+
     return new ResponseEntity<>(
-        authService.login(new LoginInputDTO(input)),
+        output,
         HttpStatus.OK
     );
   }
