@@ -15,11 +15,11 @@ public class FigureMapper {
       entity.getActive(),
       entity.getIsLaunch(),
       entity.getCategories().get(0).getName(),
-      ImageMapper.convertEntityToSimpleDTO(
-        entity.getImages().stream()
-          .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
-          .toList().get(0)
-      )
+      entity.getImages().stream()
+        .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
+        .findFirst()
+        .map(ImageMapper::convertEntityToSimpleDTO)
+        .orElse(null)
     );
   }
 }

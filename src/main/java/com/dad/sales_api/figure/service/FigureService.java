@@ -69,11 +69,11 @@ public class FigureService {
       () -> new NotFoundException("Boneco não encontrado!")
     );
 
-    ImageSimpleDTO mainImage = ImageMapper.convertEntityToSimpleDTO(
-        entity.getImages().stream()
-            .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
-            .toList().get(0)
-    );
+    ImageSimpleDTO mainImage = entity.getImages().stream()
+        .filter(image -> image.getImageType() == ImageTypeEnum.PRIMARY_FIGURE)
+        .findFirst()
+        .map(ImageMapper::convertEntityToSimpleDTO)
+        .orElse(null);
 
     return new FindFigureByIdOutputDTO(
       entity.getId(),
