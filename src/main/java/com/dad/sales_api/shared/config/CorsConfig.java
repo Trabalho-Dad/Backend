@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer  {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins(this.corsOriginPatterns) // TO DO: add url from orender
+        .allowedOriginPatterns(corsOriginPatterns.split("\\s*,\\s*"))
         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
         .allowedHeaders("*")
         .allowCredentials(true);

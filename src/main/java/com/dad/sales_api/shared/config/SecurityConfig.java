@@ -56,6 +56,7 @@ public class SecurityConfig implements UserDetailsService {
       JwtAuthenticationFilter jwtAuthenticationFilter
   ) throws Exception {
     http
+        .cors(cores -> {})
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
