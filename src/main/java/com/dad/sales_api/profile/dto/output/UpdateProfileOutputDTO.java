@@ -1,14 +1,14 @@
-package com.dad.sales_api.user.dto.output;
+package com.dad.sales_api.profile.dto.output;
 
 import com.dad.sales_api.shared.helpers.NormalizeOutput;
 
-public record UpdateUserOutputDTO(
+public record UpdateProfileOutputDTO(
     Integer id,
     String name,
     String cpf,
     String email
 ) {
-  public UpdateUserOutputDTO(Integer id, String name, String cpf, String email) {
+  public UpdateProfileOutputDTO(Integer id, String name, String cpf, String email) {
     this.id = id;
     this.cpf = NormalizeOutput.cpf(cpf);
     this.name = NormalizeOutput.name(name);

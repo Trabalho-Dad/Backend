@@ -1,4 +1,4 @@
-package com.dad.sales_api.user.dto.request;
+package com.dad.sales_api.profile.dto.request;
 
 import com.dad.sales_api.shared.SalesConstants;
 import com.dad.sales_api.shared.helpers.RegexPatterns;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UpdateUserRequestDTO (
+public record UpdateProfileRequestDTO(
     @Size(min = SalesConstants.MIN_NAME_LENGTH, max = SalesConstants.MAX_NAME_LENGTH, message = "O nome deve ter entre "
         + SalesConstants.MIN_NAME_LENGTH + " e "
         + SalesConstants.MAX_NAME_LENGTH + " letras.")

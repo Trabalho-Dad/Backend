@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
     tags = {
         @Tag(name = "Auth", description = "Autenticação de usuários."),
-        @Tag(name = "User", description = "Rotas para visualização e edição do usuário logado"),
+        @Tag(name = "Profile", description = "Rotas para visualização e edição do usuário logado"),
         @Tag(name = "Address", description = "Informações sobre os endereços do meu usuário"),
         @Tag(name = "Order", description = "Rotas para CRUD de carrinhos/pedidos"),
         @Tag(name = "Payment", description = "Rotas para pagamentos dentro da aplicação"),
