@@ -35,18 +35,13 @@ spring:
     uri: ${MONGODB_URI}
     auto-index-creation: true
 
-  mail:
-    host: smtp-relay.brevo.com
-    port: 587
-    username: ${BREVO_USERNAME}
-    password: ${BREVO_SMTP_KEY}
+  brevo:
+    api:
+      key: ${BREVO_API_KEY}
 
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enabled: true
+    sender:
+      email: ${BREVO_SENDER_EMAIL}
+      name: ${BREVO_SENDER_NAME}
 
 jwt:
   secret: ${JWT_SECRET}
