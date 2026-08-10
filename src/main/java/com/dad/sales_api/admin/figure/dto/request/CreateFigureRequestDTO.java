@@ -3,6 +3,7 @@ package com.dad.sales_api.admin.figure.dto.request;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.dad.sales_api.admin.image.dto.request.CreateImageRequestDTO;
 import com.dad.sales_api.shared.SalesConstants;
 
 import com.dad.sales_api.shared.helpers.RegexPatterns;
@@ -48,10 +49,11 @@ public record CreateFigureRequestDTO(
   @NotEmpty(message = "{validation.list.categories.required}")
   List<@Positive(message = "{validation.list.categories.min-value}") Integer> categoryIds,
 
-  @NotEmpty(message = "{validation.list.images.required}")
-  List<@Positive(message = "{validation.list.images.min-value}") Integer> imageIds
+  List<@Positive(message = "{validation.list.images.min-value}") Integer> imageIds,
+
+  List<CreateImageRequestDTO> images
 ) {
-  public CreateFigureRequestDTO(String name, String description, BigDecimal price, Integer quantity, Boolean active, Integer characterId, List<Integer> accessoryIds, List<Integer> categoryIds, List<Integer> imageIds){
+  public CreateFigureRequestDTO(String name, String description, BigDecimal price, Integer quantity, Boolean active, Integer characterId, List<Integer> accessoryIds, List<Integer> categoryIds, List<Integer> imageIds, List<CreateImageRequestDTO> images){
     this.name = name;
     this.description = description;
     this.price = price;
@@ -61,5 +63,6 @@ public record CreateFigureRequestDTO(
     this.accessoryIds = accessoryIds;
     this.categoryIds = categoryIds;
     this.imageIds = imageIds;
+    this.images = images;
   }
 }

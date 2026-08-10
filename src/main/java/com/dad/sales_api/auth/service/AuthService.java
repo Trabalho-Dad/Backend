@@ -184,7 +184,9 @@ public class AuthService {
 
     UserEntity user = userRepository.findByEmail(input.email());
 
-    user.setPassword(input.newPassword());
+    user.setPassword(
+        passwordEncoder.encode(input.newPassword())
+    );
 
     userRepository.save(user);
   }

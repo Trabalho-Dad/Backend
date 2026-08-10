@@ -1,6 +1,9 @@
 package com.dad.sales_api.admin.figure.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.dad.sales_api.shared.helpers.services.MessageService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -43,6 +46,7 @@ public class FigureService {
   private final CharacterRepository characterRepository;
   private final AccessoryRepository accessoryRepository;
   private final ImageRepository imageRepository;
+  private final MessageService messageService;
 
   @Transactional
   public FindManyFiguresOutputDTO findMany(FindManyFiguresInputDTO input){
@@ -101,6 +105,7 @@ public class FigureService {
     );
   }
 
+  @Transactional
   public CreateFigureOutputDTO create(CreateFigureInputDTO input){
     CharacterEntity character = characterRepository.findById(input.characterId()).orElseThrow(
       () -> new NotFoundException("Personagem não encontrado!")
@@ -117,8 +122,26 @@ public class FigureService {
     List<AccessoryEntity> accessories = accessoryRepository.findAllById(input.accessoryIds());
     if (accessories.size() == 0) throw new NotFoundException("Nenhum dos acessórios foram encontrados");
 
-    List<ImageEntity> images = imageRepository.findAllById(input.accessoryIds());
-    if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens foram encontradas");
+    if (input.imageIds().size() + input.images().size() == 0) throw new BadRequestException(
+        messageService.getMessage("exception.figure-images.min-value")
+    );
+
+    List<ImageEntity> images = new ArrayList<>();
+
+    if (input.images().size() > 0){
+      images = imageRepository.saveAll(
+          input.images().stream().map(
+              i -> new ImageEntity(
+                  i.description(),
+                  i.url(),
+                  i.imageType()
+              )
+          ).toList()
+      );
+    }
+
+    images.addAll(imageRepository.findAllById(input.imageIds()));
+    if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens informadas foram encontradas");
 
     FigureEntity figure = new FigureEntity(
       input.name(),
