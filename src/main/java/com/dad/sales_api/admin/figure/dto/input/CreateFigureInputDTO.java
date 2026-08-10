@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.dad.sales_api.admin.figure.dto.request.CreateFigureRequestDTO;
+import com.dad.sales_api.admin.image.dto.input.CreateImageInputDTO;
 import com.dad.sales_api.shared.helpers.NormalizeInput;
 
 public record CreateFigureInputDTO(
@@ -15,7 +16,9 @@ public record CreateFigureInputDTO(
   Integer characterId,
   List<Integer> accessoryIds,
   List<Integer> categoryIds,
-  List<Integer> imageIds
+  List<Integer> imageIds,
+
+  List<CreateImageInputDTO> images
 ) {
   public CreateFigureInputDTO(CreateFigureRequestDTO input){
     this(
@@ -27,7 +30,8 @@ public record CreateFigureInputDTO(
       input.characterId(),
       input.accessoryIds(),
       input.categoryIds() ,
-      input.imageIds()
+      input.imageIds(),
+      input.images().stream().map(i -> new CreateImageInputDTO(i)).toList()
     );
   }
 }
