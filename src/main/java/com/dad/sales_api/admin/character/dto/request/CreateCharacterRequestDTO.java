@@ -28,13 +28,11 @@ public record CreateCharacterRequestDTO(
         message = "{validation.description.size}"
     )
     String description,
-    Boolean active,
-    List<Integer> imageIds
+    Boolean active
 ) {
-  public CreateCharacterRequestDTO(String name, String description, Boolean active, List<Integer> imageIds) {
+  public CreateCharacterRequestDTO(String name, String description, Boolean active) {
     this.name = name;
     this.description = description;
     this.active = active != null ? active : true;
-    this.imageIds = imageIds;
   }
 }

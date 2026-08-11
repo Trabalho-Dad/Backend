@@ -45,10 +45,9 @@ public class CharacterEntity {
     this.active = active;
   }
 
-  public CharacterEntity(String name, String description, Boolean active, List<ImageEntity> entities){
+  public CharacterEntity(String name, String description, Boolean active){
     this.name = name;
     this.description = description;
     this.active = active != null ? active : this.active;
-    this.images = entities;
   }
 }

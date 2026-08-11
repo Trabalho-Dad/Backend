@@ -8,15 +8,13 @@ import com.dad.sales_api.shared.helpers.NormalizeInput;
 public record CreateCharacterInputDTO(
     String name,
     String description,
-    Boolean active,
-    List<Integer> imageIds
+    Boolean active
 ) {
   public CreateCharacterInputDTO(CreateCharacterRequestDTO input) {
     this(
         NormalizeInput.name(input.name()),
         NormalizeInput.description(input.description()),
-        input.active(),
-        input.imageIds()
+        input.active()
     );
   }
 }
