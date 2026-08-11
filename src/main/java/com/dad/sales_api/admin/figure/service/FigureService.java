@@ -120,24 +120,39 @@ public class FigureService {
     if (categories.size() == 0) throw new NotFoundException("Nenhuma das categorias informadas foram encontradas");
 
     List<AccessoryEntity> accessories = new ArrayList<>();
-    if (input.accessoryIds().size() != 0) {
+    if (input.accessoryIds() != null && input.accessoryIds().size() != 0) {
       accessories = accessoryRepository.findAllById(input.accessoryIds());
       if (accessories.size() == 0) throw new NotFoundException("Nenhum dos acessórios foram encontrados");
     }
 
-    if (input.imageIds().size() + input.images().size() == 0) throw new BadRequestException(
+    if (input.imageIds() != null && input.images() != null && input.imageIds().size() + input.images().size() == 0) throw new BadRequestException(
         messageService.getMessage("exception.figure-images.min-value")
     );
 
+    FigureEntity figure = new FigureEntity(
+        input.name(),
+        input.description(),
+        input.price(),
+        input.quantity(),
+        character.getActive() ? input.active() : Boolean.FALSE,
+        Boolean.TRUE,
+        character,
+        accessories,
+        categories
+    );
+
+    figureRepository.save(figure);
+
     List<ImageEntity> images = new ArrayList<>();
 
-    if (input.images().size() > 0){
+    if (input.images() != null && input.images().size() > 0){
       images = imageRepository.saveAll(
           input.images().stream().map(
               i -> new ImageEntity(
                   i.description(),
                   i.url(),
-                  i.imageType()
+                  i.imageType(),
+                  figure
               )
           ).toList()
       );
@@ -145,21 +160,6 @@ public class FigureService {
 
     images.addAll(imageRepository.findAllById(input.imageIds()));
     if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens informadas foram encontradas");
-
-    FigureEntity figure = new FigureEntity(
-      input.name(),
-      input.description(),
-      input.price(),
-      input.quantity(),
-      character.getActive() ? input.active() : Boolean.FALSE,
-      Boolean.TRUE,
-      character,
-      accessories,
-      categories,
-      images
-    );
-
-    figureRepository.save(figure);
 
     return new CreateFigureOutputDTO(figure);
   }

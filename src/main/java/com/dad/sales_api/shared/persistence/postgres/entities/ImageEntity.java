@@ -62,4 +62,11 @@ public class ImageEntity {
     this.url = url;
     this.imageType = imageType;
   }
+
+  public ImageEntity(String description, String url, ImageTypeEnum imageType, FigureEntity figure) {
+    this.description = description;
+    this.url = url;
+    this.imageType = imageType;
+    this.figure = figure;
+  }
 }
