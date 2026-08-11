@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dad.sales_api.shared.enums.ImageTypeEnum;
+import com.dad.sales_api.shared.helpers.NormalizeOutput;
 import com.dad.sales_api.shared.persistence.postgres.dto.ImageSimpleDTO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -77,7 +78,7 @@ public class FigureService {
 
     return new FindFigureByIdOutputDTO(
       entity.getId(),
-      entity.getName(),
+      NormalizeOutput.name(entity.getName()),
       entity.getDescription(),
       entity.getPrice(),
       entity.getQuantity(),

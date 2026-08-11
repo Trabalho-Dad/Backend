@@ -11,15 +11,13 @@ public record FindCharacterByIdOutputDTO(
   String name,
   String description,
   Boolean active,
-  List<FigureSimpleDTO> figures,
-  List<ImageSimpleDTO> images
+  List<FigureSimpleDTO> figures
 ) {
-  public FindCharacterByIdOutputDTO(Integer id, String name, String description, Boolean active, List<FigureSimpleDTO> figures, List<ImageSimpleDTO> images) {
+  public FindCharacterByIdOutputDTO(Integer id, String name, String description, Boolean active, List<FigureSimpleDTO> figures) {
     this.id = id;
     this.name = NormalizeOutput.name(name);
     this.description = description;
     this.active = active;
     this.figures = figures;
-    this.images = images;
   }
 }

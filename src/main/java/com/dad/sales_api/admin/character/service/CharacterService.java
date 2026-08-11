@@ -77,8 +77,7 @@ public class CharacterService {
       character.getName(),
       character.getDescription(),
       character.getActive(),
-      character.getFigures().stream().map(FigureMapper::convertEntityToSimpleDTO).toList(),
-      character.getImages().stream().map(ImageMapper::convertEntityToSimpleDTO).toList()
+      character.getFigures().stream().map(FigureMapper::convertEntityToSimpleDTO).toList()
     );
   }
 
@@ -138,14 +137,10 @@ public class CharacterService {
   }
 
   public CreateCharacterOutputDTO create(CreateCharacterInputDTO input){
-    List<ImageEntity> images = imageRepository.findAllById(input.imageIds());
-    if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens informadas foi encontrada");
-
     CharacterEntity entity = new CharacterEntity(
       input.name(),
       input.description(),
-      input.active(),
-      images
+      input.active()
     );
 
     characterRepository.save(entity);
