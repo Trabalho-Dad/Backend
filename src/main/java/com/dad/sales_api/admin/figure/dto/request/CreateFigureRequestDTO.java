@@ -43,7 +43,6 @@ public record CreateFigureRequestDTO(
   @Positive(message = "{validation.character-id.min-value}")
   Integer characterId,
 
-  @NotEmpty(message = "{validation.list.accessories.required}")
   List<@Positive(message = "{validation.list.accessories.min-value}") Integer> accessoryIds,
 
   @NotEmpty(message = "{validation.list.categories.required}")
