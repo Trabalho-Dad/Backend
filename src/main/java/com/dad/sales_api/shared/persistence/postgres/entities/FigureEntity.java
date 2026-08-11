@@ -1,6 +1,7 @@
 package com.dad.sales_api.shared.persistence.postgres.entities;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -83,5 +84,6 @@ public class FigureEntity {
     this.character = character;
     this.accessories = accessories;
     this.categories = categories;
+    this.images = new ArrayList<>();
   }
 }
