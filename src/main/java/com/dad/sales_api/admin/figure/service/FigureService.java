@@ -119,8 +119,11 @@ public class FigureService {
     
     if (categories.size() == 0) throw new NotFoundException("Nenhuma das categorias informadas foram encontradas");
 
-    List<AccessoryEntity> accessories = accessoryRepository.findAllById(input.accessoryIds());
-    if (accessories.size() == 0 && input.accessoryIds().size() != 0) throw new NotFoundException("Nenhum dos acessórios foram encontrados");
+    List<AccessoryEntity> accessories = new ArrayList<>();
+    if (input.accessoryIds().size() != 0) {
+      accessories = accessoryRepository.findAllById(input.accessoryIds());
+      if (accessories.size() == 0) throw new NotFoundException("Nenhum dos acessórios foram encontrados");
+    }
 
     if (input.imageIds().size() + input.images().size() == 0) throw new BadRequestException(
         messageService.getMessage("exception.figure-images.min-value")
