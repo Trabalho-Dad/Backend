@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.dad.sales_api.shared.persistence.postgres.entities.UserEntity;
 
+import java.time.LocalDateTime;
+
 public interface UserRepository extends JpaRepository<UserEntity, Integer>{
   UserEntity findByEmail(String email);
 
