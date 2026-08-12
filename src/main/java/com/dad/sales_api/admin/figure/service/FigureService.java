@@ -162,26 +162,43 @@ public class FigureService {
     return new CreateFigureOutputDTO(figure);
   }
 
+  @Transactional
   public UpdateFigureOutputDTO update(
       UpdateFigureInputDTO input
-  ){
-    Specification<CategoryEntity> categorySpec = Specification
-        .where(CategorySpecification.withIds(input.categoryIds()))
-        .and(CategorySpecification.withStatus(Boolean.TRUE));
-
-    List<CategoryEntity> categories = categoryRepository.findAll(categorySpec);
-
-    if (categories.size() == 0) throw new NotFoundException("Nenhuma das categorias informadas foram encontradas");
-
+  ) {
     FigureEntity figure = figureRepository.findById(input.id()).orElseThrow(
         () -> new NotFoundException(messageService.getMessage("exception.figure.not-found"))
     );
 
-    figure.setName(input.name());
-    figure.setDescription(input.description());
-    figure.setPrice(input.price());
-    figure.setQuantity(input.quantity());
-    figure.setCategories(categories);
+    if (input.name() != null) {
+      figure.setName(input.name());
+    }
+
+    if (input.description() != null) {
+      figure.setDescription(input.description());
+    }
+
+    if (input.price() != null) {
+      figure.setPrice(input.price());
+    }
+
+    if (input.quantity() != null) {
+      figure.setQuantity(input.quantity());
+    }
+
+    if (input.categoryIds() != null) {
+      Specification<CategoryEntity> categorySpec = Specification
+          .where(CategorySpecification.withIds(input.categoryIds()))
+          .and(CategorySpecification.withStatus(Boolean.TRUE));
+
+      List<CategoryEntity> categories = categoryRepository.findAll(categorySpec);
+
+      if (categories.isEmpty()) {
+        throw new NotFoundException("Nenhuma das categorias informadas foram encontradas");
+      }
+
+      figure.setCategories(categories);
+    }
 
     FigureEntity updatedFigure = figureRepository.save(figure);
 
