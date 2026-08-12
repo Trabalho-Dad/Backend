@@ -3,7 +3,7 @@ email:
   message: "Default Message"
 
 server:
-  port: ${SALES_API_PORT}
+  port: ${PORT:8080}
 
 cors:
   originPatterns: ${CORS_ORIGIN_PATTERNS}
