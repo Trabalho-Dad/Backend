@@ -1,6 +1,7 @@
 package com.dad.sales_api.category.service;
 
 import com.dad.sales_api.category.dto.output.FindAllCategoriesOutputDTO;
+import com.dad.sales_api.shared.helpers.NormalizeOutput;
 import com.dad.sales_api.shared.persistence.postgres.entities.CategoryEntity;
 import com.dad.sales_api.shared.persistence.postgres.repositories.CategoryRepository;
 import com.dad.sales_api.shared.persistence.postgres.specifications.CategorySpecification;
@@ -21,7 +22,7 @@ public class CategoryService {
 
     return categoryRepository.findAll(spec).stream().map(c ->  new FindAllCategoriesOutputDTO(
           c.getId(),
-          c.getName(),
+        NormalizeOutput.name(c.getName()),
           c.getDescription()
       )
     ).toList();
