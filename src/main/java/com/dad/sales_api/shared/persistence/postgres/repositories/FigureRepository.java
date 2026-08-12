@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.dad.sales_api.shared.persistence.postgres.entities.FigureEntity;
 
 public interface FigureRepository extends JpaRepository<FigureEntity, Integer>, JpaSpecificationExecutor<FigureEntity>{
+  long countByActive(Boolean active);
 }

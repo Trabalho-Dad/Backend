@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.dad.sales_api.shared.persistence.postgres.entities.UserOrderEntity;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface UserOrderRepository extends JpaRepository<UserOrderEntity, Integer>, JpaSpecificationExecutor<UserOrderEntity> {
@@ -18,4 +19,6 @@ public interface UserOrderRepository extends JpaRepository<UserOrderEntity, Inte
       Integer id,
       Integer userId
   );
+
+  long countByCreatedAtAfter(LocalDateTime createdAt);
 }

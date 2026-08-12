@@ -1,5 +1,8 @@
 package com.dad.sales_api.admin.figure.controller;
 
+import com.dad.sales_api.admin.figure.dto.input.UpdateFigureInputDTO;
+import com.dad.sales_api.admin.figure.dto.output.*;
+import com.dad.sales_api.admin.figure.dto.request.UpdateFigureRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,10 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dad.sales_api.admin.figure.dto.input.CreateFigureInputDTO;
 import com.dad.sales_api.admin.figure.dto.input.FindManyFiguresInputDTO;
 import com.dad.sales_api.admin.figure.dto.input.IncreaseOrDecreaseQuantityInputDTO;
-import com.dad.sales_api.admin.figure.dto.output.CreateFigureOutputDTO;
-import com.dad.sales_api.admin.figure.dto.output.FindFigureByIdOutputDTO;
-import com.dad.sales_api.admin.figure.dto.output.FindManyFiguresOutputDTO;
-import com.dad.sales_api.admin.figure.dto.output.IncreaseOrDecreaseQuantityOutputDTO;
 import com.dad.sales_api.admin.figure.dto.query_params.FindManyFiguresQueryParamsDTO;
 import com.dad.sales_api.admin.figure.dto.request.CreateFigureRequestDTO;
 import com.dad.sales_api.admin.figure.service.FigureService;
@@ -68,6 +67,25 @@ public class FigureController {
       this.service.create(
         new CreateFigureInputDTO(input)
       )
+    );
+  }
+
+  @PatchMapping("/{id}")
+  public ResponseEntity<UpdateFigureOutputDTO> update(
+      @PathVariable
+      @Valid
+      @Min(value = 1, message = "O id deve ser maior ou igual a 1")
+      Integer id,
+
+      @RequestBody
+      @Valid
+      UpdateFigureRequestDTO input
+  ){
+    return new ResponseEntity<>(
+        this.service.update(
+            new UpdateFigureInputDTO(id, input)
+        ),
+        HttpStatus.OK
     );
   }
 

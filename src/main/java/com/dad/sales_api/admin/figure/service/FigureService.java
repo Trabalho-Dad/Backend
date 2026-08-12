@@ -3,6 +3,8 @@ package com.dad.sales_api.admin.figure.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dad.sales_api.admin.figure.dto.input.UpdateFigureInputDTO;
+import com.dad.sales_api.admin.figure.dto.output.*;
 import com.dad.sales_api.shared.helpers.services.MessageService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -10,10 +12,6 @@ import org.springframework.stereotype.Service;
 import com.dad.sales_api.admin.figure.dto.input.CreateFigureInputDTO;
 import com.dad.sales_api.admin.figure.dto.input.FindManyFiguresInputDTO;
 import com.dad.sales_api.admin.figure.dto.input.IncreaseOrDecreaseQuantityInputDTO;
-import com.dad.sales_api.admin.figure.dto.output.CreateFigureOutputDTO;
-import com.dad.sales_api.admin.figure.dto.output.FindFigureByIdOutputDTO;
-import com.dad.sales_api.admin.figure.dto.output.FindManyFiguresOutputDTO;
-import com.dad.sales_api.admin.figure.dto.output.IncreaseOrDecreaseQuantityOutputDTO;
 import com.dad.sales_api.shared.persistence.postgres.dto.FigureSimpleDTO;
 import com.dad.sales_api.shared.persistence.postgres.entities.AccessoryEntity;
 import com.dad.sales_api.shared.persistence.postgres.entities.CategoryEntity;
@@ -162,6 +160,34 @@ public class FigureService {
     if (images.size() == 0) throw new NotFoundException("Nenhuma das imagens informadas foram encontradas");
 
     return new CreateFigureOutputDTO(figure);
+  }
+
+  public UpdateFigureOutputDTO update(
+      UpdateFigureInputDTO input
+  ){
+    Specification<CategoryEntity> categorySpec = Specification
+        .where(CategorySpecification.withIds(input.categoryIds()))
+        .and(CategorySpecification.withStatus(Boolean.TRUE));
+
+    List<CategoryEntity> categories = categoryRepository.findAll(categorySpec);
+
+    if (categories.size() == 0) throw new NotFoundException("Nenhuma das categorias informadas foram encontradas");
+
+    FigureEntity figure = figureRepository.findById(input.id()).orElseThrow(
+        () -> new NotFoundException(messageService.getMessage("exception.figure.not-found"))
+    );
+
+    figure.setName(input.name());
+    figure.setDescription(input.description());
+    figure.setPrice(input.price());
+    figure.setQuantity(input.quantity());
+    figure.setCategories(categories);
+
+    FigureEntity updatedFigure = figureRepository.save(figure);
+
+    return new UpdateFigureOutputDTO(
+        updatedFigure
+    );
   }
 
   public IncreaseOrDecreaseQuantityOutputDTO increaseQuantity(IncreaseOrDecreaseQuantityInputDTO input){
