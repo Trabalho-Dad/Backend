@@ -2,6 +2,9 @@ email:
   subject: "Default Subject"
   message: "Default Message"
 
+server:
+  port: ${PORT}
+
 cors:
   originPatterns: ${CORS_ORIGIN_PATTERNS}
 

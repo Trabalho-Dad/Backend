@@ -12,6 +12,7 @@ public class AddressMapper {
         NormalizeOutput.addressInfos(entity.getState()),
         NormalizeOutput.addressInfos(entity.getCity()),
         NormalizeOutput.addressInfos(entity.getNeighborhood()),
+        NormalizeOutput.addressInfos(entity.getStreet()),
         entity.getNumber(),
         entity.getComplement()
     );
