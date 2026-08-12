@@ -29,6 +29,9 @@ spring:
       ddl-auto: validate
     show-sql: true
     open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mongodb:
     authentication-database: admin
