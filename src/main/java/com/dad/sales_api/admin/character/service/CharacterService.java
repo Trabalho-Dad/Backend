@@ -91,48 +91,43 @@ public class CharacterService {
       entity.setDescription(input.description());
     }
     if (input.active() != null && !input.active().equals(entity.getActive())){
+      Boolean isDeactivating = entity.getActive() && !input.active();
       entity.setActive(input.active());
+
+      if (isDeactivating) {
+        List<FigureEntity> figures = entity.getFigures() != null ? entity.getFigures() : new ArrayList<>();
+        figures.forEach(figure -> figure.setActive(false));
+      }
     }
 
     characterRepository.save(entity);
 
     return new UpdateCharacterOutputDTO(
-      entity.getId(),
-      entity.getName(),
-      entity.getDescription(),
-      entity.getActive()
+        entity.getId(),
+        entity.getName(),
+        entity.getDescription(),
+        entity.getActive()
     );
   }
 
   @Transactional
   public UpdateCharacterOutputDTO updateStatus(Integer id){
     CharacterEntity entity = find(id);
-    Boolean active = entity.getActive();
 
-    List<FigureEntity> figures = entity.getFigures() != null ? entity.getFigures() : new ArrayList<>();
+    entity.setActive(!entity.getActive());
 
-    List<FigureEntity> updated = figures.stream()
-      .map(i -> {
-        if (i.getActive() == active) {
-          if (i.getCategories().stream().anyMatch(c -> c.getActive())){
-            i.setActive(!active);
-          }
-        }
-
-        return i;
-      })
-      .collect(Collectors.toList());
-
-    entity.setActive(!active);
-    entity.setFigures(updated);
+    if (!entity.getActive()) {
+      List<FigureEntity> figures = entity.getFigures() != null ? entity.getFigures() : new ArrayList<>();
+      figures.forEach(figure -> figure.setActive(false));
+    }
 
     characterRepository.save(entity);
 
     return new UpdateCharacterOutputDTO(
-      entity.getId(),
-      entity.getName(),
-      entity.getDescription(),
-      entity.getActive()
+        entity.getId(),
+        entity.getName(),
+        entity.getDescription(),
+        entity.getActive()
     );
   }
 

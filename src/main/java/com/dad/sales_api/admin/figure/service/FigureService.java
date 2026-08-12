@@ -186,6 +186,10 @@ public class FigureService {
       figure.setQuantity(input.quantity());
     }
 
+    if (input.active() != null){
+      figure.setActive(input.active());
+    }
+
     if (input.categoryIds() != null) {
       Specification<CategoryEntity> categorySpec = Specification
           .where(CategorySpecification.withIds(input.categoryIds()))

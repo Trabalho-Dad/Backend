@@ -1,6 +1,8 @@
 package com.dad.sales_api.admin.category.service;
 
 import java.util.List;
+
+import com.dad.sales_api.shared.exceptions.ConflictException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -84,25 +86,34 @@ public class CategoryService {
   public UpdateCategoryOutputDTO update(UpdateCategoryInputDTO input){
     CategoryEntity category = find(input.id());
 
-    boolean wasActive = Boolean.TRUE.equals(category.getActive());
-
     if (input.name() != null && !input.name().equals(category.getName())){
       category.setName(input.name());
     }
+
     if (input.description() != null && !input.description().equals(category.getDescription())){
       category.setDescription(input.description());
     }
-    if (input.active() != null && input.active() != category.getActive()){
-      category.setActive(input.active());
-    }
+
     if (input.active() != null && !input.active().equals(category.getActive())){
-      category.setActive(input.active());
-    }
-    if (wasActive && Boolean.FALSE.equals(input.active())){
-      for (FigureEntity figure : category.getFigures()) {
-        figure.getCategories().remove(category);
+      boolean isDeactivating = Boolean.TRUE.equals(category.getActive()) && Boolean.FALSE.equals(input.active());
+
+      if (isDeactivating) {
+        for (FigureEntity figure : category.getFigures()) {
+          if (figure.getCategories().size() == 1) {
+            throw new ConflictException(
+                "Não é possível desativar esta categoria. A figura '" + figure.getName() +
+                    "' possui apenas esta categoria."
+            );
+          }
+        }
+
+        for (FigureEntity figure : category.getFigures()) {
+          figure.getCategories().remove(category);
+        }
+        category.getFigures().clear();
       }
-      category.getFigures().clear();
+
+      category.setActive(input.active());
     }
 
     categoryRepository.save(category);
@@ -115,15 +126,24 @@ public class CategoryService {
     CategoryEntity category = find(id);
 
     boolean wasActive = Boolean.TRUE.equals(category.getActive());
-    category.setActive(!wasActive);
 
     if (wasActive) {
+      for (FigureEntity figure : category.getFigures()) {
+        if (figure.getCategories().size() == 1) {
+          throw new ConflictException(
+              "Não é possível desativar esta categoria. A figura '" + figure.getName() +
+                  "' possui apenas esta categoria."
+          );
+        }
+      }
+
       for (FigureEntity figure : category.getFigures()) {
         figure.getCategories().remove(category);
       }
       category.getFigures().clear();
     }
 
+    category.setActive(!wasActive);
     categoryRepository.save(category);
 
     return new UpdateCategoryOutputDTO(category);
