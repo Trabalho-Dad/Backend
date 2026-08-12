@@ -2,9 +2,6 @@ email:
   subject: "Default Subject"
   message: "Default Message"
 
-server:
-  port: ${SALES_API_PORT}
-
 cors:
   originPatterns: ${CORS_ORIGIN_PATTERNS}
 
