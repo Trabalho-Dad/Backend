@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
 
 public record UpdateCategoryRequestDTO(
-    @NotBlank(message = "{validation.name.required}")
     @Size(
         min = SalesConstants.MIN_NAME_LENGTH,
         max = SalesConstants.MAX_NAME_LENGTH,
