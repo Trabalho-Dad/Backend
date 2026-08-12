@@ -35,17 +35,17 @@ spring:
     uri: ${MONGODB_URI}
     auto-index-creation: true
 
-  brevo:
-    api:
-      key: ${BREVO_API_KEY}
-
-    sender:
-      email: ${BREVO_SENDER_EMAIL}
-      name: ${BREVO_SENDER_NAME}
-
 jwt:
   secret: ${JWT_SECRET}
   expiration-ms: ${JWT_EXPIRATION_MS}
 
 validator:
   token: ${VALIDATOR_API_TOKEN}
+
+brevo:
+    api:
+      key: ${BREVO_API_KEY}
+
+    sender:
+      email: ${BREVO_SENDER_EMAIL}
+      name: ${BREVO_SENDER_NAME}
